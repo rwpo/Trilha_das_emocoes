@@ -520,7 +520,7 @@
             width: 100%;
         }
 
-        /* TELA DE FINAL/RELATÓRIO PDF OPTIMIZED FOR HTML2CANVAS */
+        /* TELA DE FINAL/RELATÓRIO PDF INDIVIDUAL */
         .report-card {
             background: white;
             border-radius: 25px;
@@ -531,7 +531,36 @@
             text-align: center;
         }
 
-        /* DOCUMENTO FORMATADO DE FORMA COMPATÍVEL COM HTML2CANVAS */
+        .player-report-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .player-tab-btn {
+            background: #f1f2f6;
+            border: 2px solid #dfe4ea;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .player-tab-btn.active {
+            background: #2f3542;
+            color: white;
+            border-color: #2f3542;
+            transform: scale(1.05);
+        }
+
+        /* DOCUMENTO FORMATADO PARA HTML2CANVAS */
         .pdf-document {
             background: #ffffff !important;
             padding: 25px;
@@ -542,6 +571,7 @@
             line-height: 1.4;
             width: 100%;
             box-sizing: border-box;
+            border: 2px solid #e9ecef;
         }
 
         .pdf-header-banner {
@@ -594,7 +624,7 @@
             border-bottom: 2px solid #e9ecef;
         }
 
-        /* TABELA DE REGISTROS DE RESPOSTAS - SEM TRUNCAMENTO */
+        /* TABELA DE REGISTROS DE RESPOSTAS - INDIVIDUAL */
         .pdf-qa-container {
             width: 100%;
             display: block;
@@ -693,12 +723,28 @@
             font-family: 'Fredoka', sans-serif;
             cursor: pointer;
             box-shadow: 0 5px 0 #2e35b7;
-            margin-top: 20px;
+            margin-top: 15px;
             transition: transform 0.2s;
         }
 
         .export-pdf-btn:hover {
             transform: translateY(-2px);
+        }
+
+        .export-all-pdf-btn {
+            background: #2ed573;
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            font-family: 'Fredoka', sans-serif;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #20bf6b;
+            margin-top: 15px;
+            margin-left: 10px;
+            transition: transform 0.2s;
         }
 
         .tile-red { background: #ff4757; }
@@ -767,11 +813,13 @@
         </div>
     </div>
 
-    <!-- TELA 3: RELATÓRIO FINAL PROFISSIONAL & ACESSÍVEL -->
+    <!-- TELA 3: RELATÓRIO FINAL INDIVIDUAL POR JOGADOR -->
     <div id="reportScreen" class="screen">
         <div class="report-card">
-            <h2 style="color:#2f3542; margin-bottom:5px;">🏆 Fim de Jogo!</h2>
-            <p style="color:#576574; margin-bottom:20px;">Relatório de Acompanhamento das Expressões Emocionais gerado para análise pedagógica/terapêutica.</p>
+            <h2 style="color:#2f3542; margin-bottom:5px;">🏆 Fim de Jogo! Todos os Jogadores Chegaram!</h2>
+            <p style="color:#576574; margin-bottom:15px;">Selecione o jogador abaixo para visualizar ou exportar o seu relatório individual de acompanhamento:</p>
+
+            <div class="player-report-selector" id="playerReportSelector"></div>
 
             <div id="pdfArea" class="pdf-document">
                 <div class="pdf-header-banner">
@@ -779,7 +827,7 @@
                         <tr>
                             <td class="pdf-header-title">
                                 <h2>TRILHA DAS EMOÇÕES</h2>
-                                <p>Relatório de Respostas & Expressão Não-Verbal</p>
+                                <p>Relatório Individual de Respostas & Expressão Não-Verbal</p>
                             </td>
                             <td style="text-align:right; font-size:0.85rem; color:#747d8c;">
                                 Data: <strong id="pdfDate">--/--/----</strong><br>
@@ -792,13 +840,13 @@
                 <div class="pdf-meta-box">
                     <table>
                         <tr>
-                            <td><strong>Participante(s):</strong> <span id="pdfPlayersList">--</span></td>
+                            <td><strong>Aluno / Jogador:</strong> <span id="pdfPlayerName">--</span></td>
                             <td style="text-align:right;"><strong>Total de Interações:</strong> <span id="pdfTotalAnswers">0</span></td>
                         </tr>
                     </table>
                 </div>
 
-                <div class="pdf-section-title">📋 Registro Detalhado das Respostas das Casas</div>
+                <div class="pdf-section-title">📋 Registro das Respostas de <span id="pdfPlayerTitleName">--</span></div>
 
                 <div class="pdf-qa-container" id="reportList"></div>
 
@@ -807,7 +855,10 @@
                 </div>
             </div>
 
-            <button class="export-pdf-btn" onclick="exportToPDF()">📄 EXPORTAR RELATÓRIO EM PDF</button>
+            <div>
+                <button class="export-pdf-btn" onclick="exportCurrentPlayerPDF()">📄 EXPORTAR PDF DESTE JOGADOR</button>
+                <button class="export-all-pdf-btn" onclick="exportAllPlayersPDF()">📚 EXPORTAR TODOS OS RELATÓRIOS (PDFs)</button>
+            </div>
             <button class="start-game-btn" onclick="location.reload()" style="margin-top:15px; background:#ff4757; box-shadow: 0 5px 0 #d63031;">JOGAR NOVAMENTE 🔄</button>
         </div>
     </div>
@@ -1005,6 +1056,7 @@
         let currentPlayerIndex = 0;
         let selectedOption = null;
         let gameAnswersLog = [];
+        let selectedReportPlayerIdx = 0;
 
         function setPlayerCount(count) {
             activePlayerCount = count;
@@ -1052,8 +1104,10 @@
             for (let i = 0; i < activePlayerCount; i++) {
                 const name = document.getElementById(`pName-${i}`).value.trim() || `Jogador ${i+1}`;
                 const color = activePlayers[i]?.color || defaultColors[i];
-                activePlayers.push({ id: i + 1, name, color, pos: 0 });
+                activePlayers.push({ id: i + 1, name, color, pos: 0, finished: false });
             }
+
+            currentPlayerIndex = 0;
 
             document.getElementById("setupScreen").classList.remove("active");
             document.getElementById("gameScreen").classList.add("active");
@@ -1099,9 +1153,23 @@
         }
 
         function updateTurnCard() {
+            // Verificar se TODOS os jogadores já finalizaram
+            const allFinished = activePlayers.every(p => p.finished);
+            if (allFinished) {
+                confetti({ particleCount: 180, spread: 90, origin: { y: 0.6 } });
+                showReportScreen();
+                return;
+            }
+
+            // Garante que o turno passe para um jogador que ainda NÃO finalizou
+            while (activePlayers[currentPlayerIndex].finished) {
+                currentPlayerIndex = (currentPlayerIndex + 1) % activePlayers.length;
+            }
+
             const p = activePlayers[currentPlayerIndex];
             document.getElementById("currentPlayerName").innerText = `Vez de ${p.name}`;
             document.getElementById("playerPawnPreview").className = `pawn ${p.color}`;
+            document.getElementById("playerStatusText").innerText = "Role o dado para avançar!";
             document.getElementById("rollBtn").disabled = false;
         }
 
@@ -1154,6 +1222,26 @@
             const player = activePlayers[currentPlayerIndex];
             const tile = boardData[player.pos];
 
+            // Se atingiu a última casa
+            if (player.pos === boardData.length - 1) {
+                if (!player.finished) {
+                    player.finished = true;
+                    confetti({ particleCount: 70, spread: 50, origin: { y: 0.6 } });
+                    alert(`🎉 Parabéns, ${player.name}! Você chegou à casa final da Trilha das Emoções!`);
+                }
+
+                // Verifica se faltam outros jogadores
+                const remaining = activePlayers.filter(p => !p.finished);
+                if (remaining.length > 0) {
+                    alert(`Ainda restam ${remaining.length} jogador(es) no jogo. O jogo continua até todos chegarem!`);
+                    nextTurn();
+                } else {
+                    confetti({ particleCount: 180, spread: 90, origin: { y: 0.6 } });
+                    showReportScreen();
+                }
+                return;
+            }
+
             if (tile.action) {
                 setTimeout(() => {
                     alert(`${player.name} parou em '${tile.title}'! Movendo ${tile.action} casas...`);
@@ -1166,9 +1254,6 @@
 
             if (tile.options && tile.options.length > 0) {
                 openModal(tile);
-            } else if (player.pos === boardData.length - 1) {
-                confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-                showReportScreen();
             } else {
                 nextTurn();
             }
@@ -1255,20 +1340,51 @@
             document.getElementById("gameScreen").classList.remove("active");
             document.getElementById("reportScreen").classList.add("active");
 
+            // Renderizar seletor de jogadores para relatório individual
+            const selector = document.getElementById("playerReportSelector");
+            selector.innerHTML = "";
+
+            activePlayers.forEach((p, idx) => {
+                const btn = document.createElement("button");
+                btn.className = `player-tab-btn ${idx === 0 ? 'active' : ''}`;
+                btn.onclick = () => selectReportPlayer(idx);
+
+                const badgeBg = colorMap[p.color] || "#2f3542";
+                btn.innerHTML = `<span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:${badgeBg};"></span> ${p.name}`;
+                selector.appendChild(btn);
+            });
+
+            selectReportPlayer(0);
+        }
+
+        function selectReportPlayer(pIdx) {
+            selectedReportPlayerIdx = pIdx;
+
+            // Atualiza estado visual dos botões
+            document.querySelectorAll(".player-tab-btn").forEach((btn, idx) => {
+                btn.classList.toggle("active", idx === pIdx);
+            });
+
+            const player = activePlayers[pIdx];
             const today = new Date().toLocaleDateString('pt-BR');
+
             document.getElementById("pdfDate").innerText = today;
-            document.getElementById("pdfPlayersList").innerText = activePlayers.map(p => p.name).join(", ");
-            document.getElementById("pdfTotalAnswers").innerText = gameAnswersLog.length;
+            document.getElementById("pdfPlayerName").innerText = player.name;
+            document.getElementById("pdfPlayerTitleName").innerText = player.name;
+
+            // Filtra respostas exclusivas deste jogador
+            const playerLogs = gameAnswersLog.filter(log => log.player === player.name);
+            document.getElementById("pdfTotalAnswers").innerText = playerLogs.length;
 
             const container = document.getElementById("reportList");
             container.innerHTML = "";
 
-            if (gameAnswersLog.length === 0) {
-                container.innerHTML = "<p style='padding:15px; color:#a4b0be;'>Nenhuma pergunta necessitou de resposta durante esta rodada.</p>";
+            if (playerLogs.length === 0) {
+                container.innerHTML = `<p style='padding:20px; color:#8395a7; text-align:center;'>Nenhuma pergunta necessitou de resposta registrada para ${player.name}.</p>`;
                 return;
             }
 
-            gameAnswersLog.forEach((log) => {
+            playerLogs.forEach((log) => {
                 const row = document.createElement("div");
                 row.className = "pdf-qa-row";
 
@@ -1291,11 +1407,14 @@
             });
         }
 
-        function exportToPDF() {
+        function exportCurrentPlayerPDF() {
+            const player = activePlayers[selectedReportPlayerIdx];
             const element = document.getElementById("pdfArea");
+
+            const safeName = player.name.replace(/[^a-zA-Z0-9_-]/g, '_');
             const opt = {
                 margin:       [10, 10, 10, 10],
-                filename:     'Relatorio_Clinico_Trilha_das_Emocoes.pdf',
+                filename:     `Relatorio_Emocional_${safeName}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2, useCORS: true, logging: false, scrollX: 0, scrollY: 0 },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
@@ -1303,6 +1422,15 @@
             };
 
             html2pdf().set(opt).from(element).save();
+        }
+
+        async function exportAllPlayersPDF() {
+            for (let i = 0; i < activePlayers.length; i++) {
+                selectReportPlayer(i);
+                await new Promise(resolve => setTimeout(resolve, 300));
+                exportCurrentPlayerPDF();
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
         }
 
         // Inicialização
