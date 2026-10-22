@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trilha das Emoções - Jogo Digital Interativo 2D</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
@@ -375,7 +375,7 @@
             box-shadow: none;
         }
 
-        /* MODAL DE RESPOSTAS COM DESTAQUE DE TEXTO */
+        /* MODAL DE RESPOSTAS */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -470,7 +470,6 @@
         .option-icon { font-size: 2.2rem; }
         .option-label { font-size: 0.95rem; font-weight: 700; color: #2f3542; }
 
-        /* CAMPO DE DADOS DIGITADOS SINALIZADO COM DESTAQUE */
         .highlighted-text-area {
             background: #fff9db;
             border: 3px dashed #feca57;
@@ -521,33 +520,150 @@
             width: 100%;
         }
 
-        /* TELA DE FINAL/RELATÓRIO PDF */
+        /* TELA DE FINAL/RELATÓRIO PDF PROFESSIONAL & ACCESSIBLE */
         .report-card {
             background: white;
             border-radius: 25px;
             padding: 30px;
             box-shadow: var(--card-shadow);
-            max-width: 800px;
+            max-width: 850px;
             width: 100%;
             text-align: center;
         }
 
-        .report-content {
+        /* ESTILO DO DOCUMENTO PDF PROFISSIONAL */
+        .pdf-document {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
             text-align: left;
-            margin: 20px 0;
-            padding: 20px;
+            font-family: 'Nunito', sans-serif;
+            color: #2d3436;
+            line-height: 1.5;
+        }
+
+        .pdf-header-banner {
+            border-bottom: 3px solid #ff4757;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .pdf-header-title h2 {
+            font-family: 'Fredoka', sans-serif;
+            color: #ff4757;
+            font-size: 1.8rem;
+            margin-bottom: 4px;
+        }
+
+        .pdf-header-title p {
+            color: #636e72;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .pdf-meta-box {
             background: #f8f9fa;
-            border-radius: 15px;
-            border: 2px solid #e9ecef;
+            border: 1px solid #dfe4ea;
+            border-left: 5px solid #4a90e2;
+            border-radius: 8px;
+            padding: 12px 18px;
+            margin-bottom: 25px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            font-size: 0.95rem;
         }
 
-        .report-item {
-            padding: 10px 0;
-            border-bottom: 1px solid #dfe4ea;
+        .pdf-meta-item strong {
+            color: #2f3542;
         }
 
-        .report-item:last-child {
-            border-bottom: none;
+        .pdf-section-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.2rem;
+            color: #2f3542;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        /* TABELA / ESTRUTURA SEPARADA POR LINHAS CLARAS PARA O PROFISSIONAL */
+        .pdf-qa-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .pdf-qa-row {
+            border-bottom: 2px solid #e9ecef;
+            padding: 14px 10px;
+            page-break-inside: avoid;
+        }
+
+        .pdf-qa-row:nth-child(even) {
+            background-color: #fafbfc;
+        }
+
+        .pdf-qa-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .pdf-player-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: white;
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .pdf-tile-info {
+            font-size: 0.85rem;
+            color: #8395a7;
+            font-weight: 700;
+        }
+
+        .pdf-question-text {
+            font-weight: 800;
+            color: #2f3542;
+            font-size: 1.05rem;
+            margin-bottom: 6px;
+        }
+
+        .pdf-answer-box {
+            background: #ffffff;
+            border: 1px solid #ced4da;
+            border-left: 4px solid #2ed573;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 0.98rem;
+            color: #2d3436;
+        }
+
+        .pdf-answer-type {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #1dd1a1;
+            font-weight: 800;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .pdf-footer {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #dfe4ea;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #a4b0be;
         }
 
         .export-pdf-btn {
@@ -561,10 +677,14 @@
             font-family: 'Fredoka', sans-serif;
             cursor: pointer;
             box-shadow: 0 5px 0 #2e35b7;
-            margin-top: 10px;
+            margin-top: 20px;
+            transition: transform 0.2s;
         }
 
-        /* CORES DAS CASAS DO TABULEIRO */
+        .export-pdf-btn:hover {
+            transform: translateY(-2px);
+        }
+
         .tile-red { background: #ff4757; }
         .tile-orange { background: #ffa502; }
         .tile-yellow { background: #eccc68; color: #2f3542; }
@@ -631,15 +751,40 @@
         </div>
     </div>
 
-    <!-- TELA 3: RELATÓRIO FINAL -->
+    <!-- TELA 3: RELATÓRIO FINAL PROFISSIONAL & ACESSÍVEL -->
     <div id="reportScreen" class="screen">
         <div class="report-card">
-            <h2>🏆 Fim do Jogo & Relatório das Emoções</h2>
-            <p>Abaixo estão registradas todas as respostas compartilhadas durante a trilha:</p>
-            
-            <div id="pdfArea">
-                <h3 style="margin-bottom:10px; color:#2f3542;" id="pdfTitle">Relatório de Respostas da Trilha</h3>
-                <div class="report-content" id="reportList"></div>
+            <h2 style="color:#2f3542; margin-bottom:5px;">🏆 Fim de Jogo!</h2>
+            <p style="color:#576574; margin-bottom:20px;">Relatório de Acompanhamento das Expressões Emocionais gerado para análise pedagógica/terapêutica.</p>
+
+            <div id="pdfArea" class="pdf-document">
+                <div class="pdf-header-banner">
+                    <div class="pdf-header-title">
+                        <h2>TRILHA DAS EMOÇÕES</h2>
+                        <p>Relatório de Respostas & Expressão Não-Verbal</p>
+                    </div>
+                    <div style="font-size:0.85rem; color:#747d8c; text-align:right;">
+                        <span>Data: <strong id="pdfDate">--/--/----</strong></span><br>
+                        <span>Acessibilidade: Visual & Não-Verbal</span>
+                    </div>
+                </div>
+
+                <div class="pdf-meta-box">
+                    <div class="pdf-meta-item">
+                        <strong>Participante(s):</strong> <span id="pdfPlayersList">--</span>
+                    </div>
+                    <div class="pdf-meta-item">
+                        <strong>Total de Interações:</strong> <span id="pdfTotalAnswers">0</span>
+                    </div>
+                </div>
+
+                <div class="pdf-section-title">📋 Registro Detalhado das Respostas das Casas</div>
+
+                <div class="pdf-qa-table" id="reportList"></div>
+
+                <div class="pdf-footer">
+                    Documento gerado automaticamente pelo jogo digital "Trilha das Emoções" - Recurso pedagógico e inclusivo.
+                </div>
             </div>
 
             <button class="export-pdf-btn" onclick="exportToPDF()">📄 EXPORTAR RELATÓRIO EM PDF</button>
@@ -659,7 +804,6 @@
 
             <div class="options-grid" id="optionsGrid"></div>
 
-            <!-- CAMPO SINALIZADO DE DIGITAÇÃO -->
             <div class="highlighted-text-area">
                 <label for="textAnswer">✏️ Prefere escrever? Digite sua resposta abaixo:</label>
                 <input type="text" id="textAnswer" placeholder="Ex: Fico alegre quando vejo meus amigos...">
@@ -821,6 +965,13 @@
             ]},
             { id: 22, title: "PARABÉNS! VOCÊ CHEGOU AO FINAL", icon: "🏆", color: "tile-green", options: [] }
         ];
+
+        const colorMap = {
+            "c-blue": "#1e90ff",
+            "c-yellow": "#ffa502",
+            "c-red": "#ff4757",
+            "c-black": "#2f3542"
+        };
 
         const colors = [
             { id: "c-blue", name: "Azul" },
@@ -1039,17 +1190,26 @@
             }
 
             let ansText = "";
-            if (selectedOption) {
+            let typeLabel = "";
+
+            if (selectedOption && textVal) {
+                ansText = `${selectedOption.icon} ${selectedOption.label} (Complemento Escrito: "${textVal}")`;
+                typeLabel = "Resposta Mista (Visual + Texto)";
+            } else if (selectedOption) {
                 ansText = `${selectedOption.icon} ${selectedOption.label}`;
-            }
-            if (textVal) {
-                ansText += (ansText ? " | Texto: " : "") + textVal;
+                typeLabel = "Comunicação Não-Verbal / Visual";
+            } else {
+                ansText = `"${textVal}"`;
+                typeLabel = "Resposta Digitada / Escrita";
             }
 
             gameAnswersLog.push({
                 player: player.name,
+                playerColor: player.color,
+                tileNum: player.pos,
                 question: tileTitle,
-                answer: ansText
+                answer: ansText,
+                type: typeLabel
             });
 
             confetti({ particleCount: 50, spread: 60, origin: { y: 0.7 } });
@@ -1075,32 +1235,48 @@
             document.getElementById("gameScreen").classList.remove("active");
             document.getElementById("reportScreen").classList.add("active");
 
+            // Meta Info
+            const today = new Date().toLocaleDateString('pt-BR');
+            document.getElementById("pdfDate").innerText = today;
+            document.getElementById("pdfPlayersList").innerText = activePlayers.map(p => p.name).join(", ");
+            document.getElementById("pdfTotalAnswers").innerText = gameAnswersLog.length;
+
             const container = document.getElementById("reportList");
             container.innerHTML = "";
 
             if (gameAnswersLog.length === 0) {
-                container.innerHTML = "<p>Nenhuma resposta foi registrada durante esta partida.</p>";
+                container.innerHTML = "<p style='padding:15px; color:#a4b0be;'>Nenhuma pergunta necessitou de resposta durante esta rodada.</p>";
                 return;
             }
 
-            gameAnswersLog.forEach(log => {
-                const item = document.createElement("div");
-                item.className = "report-item";
-                item.innerHTML = `
-                    <strong style="color:#ff4757;">${log.player}</strong> na pergunta <em>"${log.question}"</em>:
-                    <br><span style="color:#2f3542; font-weight:700;">👉 Resposta: ${log.answer}</span>
+            gameAnswersLog.forEach((log) => {
+                const row = document.createElement("div");
+                row.className = "pdf-qa-row";
+
+                const badgeBg = colorMap[log.playerColor] || "#2f3542";
+
+                row.innerHTML = `
+                    <div class="pdf-qa-header">
+                        <span class="pdf-player-badge" style="background:${badgeBg};">${log.player}</span>
+                        <span class="pdf-tile-info">Casa #${log.tileNum}</span>
+                    </div>
+                    <div class="pdf-question-text">❓ ${log.question}</div>
+                    <div class="pdf-answer-box">
+                        <span class="pdf-answer-type">${log.type}</span>
+                        ${log.answer}
+                    </div>
                 `;
-                container.appendChild(item);
+                container.appendChild(row);
             });
         }
 
         function exportToPDF() {
             const element = document.getElementById("pdfArea");
             const opt = {
-                margin:       10,
-                filename:     'Relatorio_Trilha_das_Emocoes.pdf',
+                margin:       12,
+                filename:     'Relatorio_Clinico_Trilha_das_Emocoes.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2 },
+                html2canvas:  { scale: 2, useCORS: true },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
