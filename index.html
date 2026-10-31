@@ -1696,40 +1696,30 @@
             });
 
             const player = activePlayers[pIdx];
+            if (!player) return;
+
             const today = new Date().toLocaleDateString('pt-BR');
 
             document.getElementById("pdfDate").innerText = today;
             document.getElementById("pdfPlayerName").innerText = player.name;
             document.getElementById("pdfPlayerTitleName").innerText = player.name;
             
-            // CORREÇÃO ROBUSTA: Converter SVG para PNG via Canvas em tempo de execução
+            // Renderização SÍNCRONA e CONFIÁVEL do SVG diretamente em Data URI
             const svgString = generateFaceSVG(player.avatarConfig);
-            const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-            const URL = window.URL || window.webkitURL || window;
-            const blobURL = URL.createObjectURL(blob);
+            const encodedSvg = encodeURIComponent(svgString);
+            const dataUrl = `data:image/svg+xml;charset=utf-8,${encodedSvg}`;
             
-            const img = new Image();
-            img.onload = function() {
-                const canvas = document.createElement('canvas');
-                canvas.width = 150;
-                canvas.height = 150;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, 150, 150);
-                const pngDataUrl = canvas.toDataURL('image/png');
-                
-                document.getElementById("pdfPlayerAvatarBox").innerHTML = `<img src="${pngDataUrl}" style="width:100%; height:100%; object-fit:cover; display:block;" alt="Avatar">`;
-                URL.revokeObjectURL(blobURL);
-            };
-            img.src = blobURL;
+            document.getElementById("pdfPlayerAvatarBox").innerHTML = `<img src="${dataUrl}" style="width:100%; height:100%; object-fit:cover; display:block;" alt="Avatar">`;
 
-            const playerLogs = gameAnswersLog.filter(log => log.player === player.name);
+            // Filtragem flexível de logs pelo nome do jogador
+            const playerLogs = gameAnswersLog.filter(log => log.player.trim().toLowerCase() === player.name.trim().toLowerCase());
             document.getElementById("pdfTotalAnswers").innerText = playerLogs.length;
 
             const container = document.getElementById("reportList");
             container.innerHTML = "";
 
             if (playerLogs.length === 0) {
-                container.innerHTML = `<p style='padding:12px; color:#8395a7; text-align:center;'>Nenhuma pergunta necessitou de resposta registrada para ${player.name}.</p>`;
+                container.innerHTML = `<div style='padding:15px; color:#8395a7; text-align:center; background:#f8f9fa; border-radius:8px; border:1px solid #dfe4ea;'>Nenhuma resposta registrada para ${player.name} durante esta partida.</div>`;
                 return;
             }
 
