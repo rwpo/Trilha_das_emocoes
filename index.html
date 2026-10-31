@@ -83,12 +83,6 @@
             text-align: center;
         }
 
-        .setup-section-title {
-            color: #2f3542;
-            font-size: 1.3rem;
-            margin: 15px 0 10px 0;
-        }
-
         .player-count-selector {
             display: flex;
             justify-content: center;
@@ -305,7 +299,6 @@
             overflow: hidden;
         }
 
-        /* TABULEIRO 2D SINUOSO */
         .board-container {
             background: white;
             padding: 20px;
@@ -362,7 +355,6 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
 
-        /* PEÕES COM AVATAR DO ROSTO */
         .pawns-container {
             position: absolute;
             bottom: 5px;
@@ -387,7 +379,6 @@
             overflow: hidden;
         }
 
-        /* DADO */
         .dice-area {
             display: flex;
             flex-direction: column;
@@ -571,11 +562,6 @@
             background: white;
         }
 
-        .highlighted-text-area input:focus {
-            border-color: #f59e0b;
-            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
-        }
-
         .confirm-btn {
             background: #2ed573;
             color: white;
@@ -591,15 +577,38 @@
             width: 100%;
         }
 
-        /* TELA DE RELATÓRIO FORMATADO EM TABELA ORGANIZADA */
+        /* TELA DE RELATÓRIO FORMATADO */
         .report-card {
             background: white;
             border-radius: 25px;
             padding: 25px;
             box-shadow: var(--card-shadow);
-            max-width: 900px;
+            max-width: 950px;
             width: 100%;
             text-align: center;
+        }
+
+        .report-filter-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+            padding: 12px 20px;
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+        }
+
+        .report-filter-bar select {
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: 2px solid #ced4da;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            background: white;
+            cursor: pointer;
         }
 
         .pdf-document {
@@ -614,36 +623,54 @@
             border: 1px solid #dfe4ea;
         }
 
-        .pdf-header-banner {
-            border-bottom: 3px solid #ff4757;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-            width: 100%;
+        .player-report-block {
+            background: #ffffff;
+            border: 2px solid #dfe4ea;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
         }
 
-        .pdf-header-banner table {
-            width: 100%;
-            border-collapse: collapse;
+        /* Classe especial aplicada para quebra exata de página no PDF */
+        .page-break-student {
+            page-break-after: always;
+            break-after: page;
         }
 
-        .pdf-header-title h2 {
+        .player-report-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 2px solid #f1f2f6;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+        }
+
+        .player-report-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid #dfe4ea;
+            overflow: hidden;
+            background: white;
+            flex-shrink: 0;
+        }
+
+        .player-report-title h3 {
             font-family: 'Fredoka', sans-serif;
-            color: #ff4757;
-            font-size: 1.6rem;
-            margin-bottom: 2px;
+            font-size: 1.3rem;
         }
 
-        .pdf-header-title p {
-            color: #636e72;
-            font-size: 0.88rem;
-            font-weight: 600;
+        .player-report-title p {
+            font-size: 0.85rem;
+            color: #747d8c;
+            font-weight: 700;
         }
 
-        /* TABELA ESTRUTURADA DE RELATÓRIO PEDAGÓGICO */
         .report-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 12px;
             font-size: 0.88rem;
         }
 
@@ -654,7 +681,6 @@
             padding: 8px 10px;
             text-align: left;
             font-weight: 600;
-            border: 1px solid #2f3542;
         }
 
         .report-table td {
@@ -665,26 +691,6 @@
 
         .report-table tr:nth-child(even) {
             background-color: #f8f9fa;
-        }
-
-        .report-player-cell {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 700;
-        }
-
-        .report-avatar-mini {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: 2px solid #ced4da;
-            overflow: hidden;
-            background: white;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .pdf-footer {
@@ -711,10 +717,6 @@
             transition: transform 0.2s;
         }
 
-        .export-pdf-btn:hover {
-            transform: translateY(-2px);
-        }
-
         .tile-red { background: #ff4757; }
         .tile-orange { background: #ffa502; }
         .tile-yellow { background: #eccc68; color: #2f3542; }
@@ -732,7 +734,7 @@
         <p>Um jogo interativo sobre sentimentos, empatia e expressão não-verbal</p>
     </header>
 
-    <!-- TELA 1: SELEÇÃO, PERSONALIZAÇÃO E TIPO DE TABULEIRO -->
+    <!-- TELA 1: SELEÇÃO E CUSTOMIZAÇÃO -->
     <div id="setupScreen" class="screen active">
         <div class="setup-card">
             <h2>Escolha a quantidade de jogadores:</h2>
@@ -781,19 +783,26 @@
         </div>
     </div>
 
-    <!-- TELA 3: RELATÓRIO FINAL EM TABELA COMPACTA -->
+    <!-- TELA 3: RELATÓRIO AGRUPADO COM FILTRO -->
     <div id="reportScreen" class="screen">
         <div class="report-card">
             <h2 style="color:#2f3542; margin-bottom:5px;">🏆 Fim de Jogo! Relatório Geral da Partida</h2>
-            <p style="color:#576574; margin-bottom:15px;">Resumo consolidado em tabela com o desempenho e respostas de todos os jogadores:</p>
+            <p style="color:#576574; margin-bottom:15px;">Acompanhamento individualizado de respostas por aluno:</p>
+
+            <div class="report-filter-bar">
+                <label for="reportPlayerSelect" style="font-weight: 700; color: #2f3542;">Visualizar Relatório de:</label>
+                <select id="reportPlayerSelect" onchange="renderReportView()">
+                    <option value="ALL">👥 Toda a Turma (Relatório Geral Paginado)</option>
+                </select>
+            </div>
 
             <div id="pdfArea" class="pdf-document">
-                <div class="pdf-header-banner">
-                    <table>
+                <div class="pdf-header-banner" style="border-bottom: 3px solid #ff4757; padding-bottom: 10px; margin-bottom: 15px;">
+                    <table style="width:100%;">
                         <tr>
-                            <td class="pdf-header-title">
-                                <h2>TRILHA DAS EMOÇÕES</h2>
-                                <p>Relatório Consolidado de Respostas & Expressão Não-Verbal</p>
+                            <td>
+                                <h2 style="font-family:'Fredoka',sans-serif; color:#ff4757; font-size:1.6rem;">TRILHA DAS EMOÇÕES</h2>
+                                <p style="color:#636e72; font-size:0.88rem; font-weight:600;" id="pdfReportSubTitle">Relatório Geral da Turma - Agrupado por Aluno</p>
                             </td>
                             <td style="text-align:right; font-size:0.8rem; color:#747d8c;">
                                 Data: <strong id="pdfDate">--/--/----</strong><br>
@@ -803,26 +812,15 @@
                     </table>
                 </div>
 
-                <table class="report-table">
-                    <thead>
-                        <tr>
-                            <th style="width: 22%;">Aluno / Avatar</th>
-                            <th style="width: 12%;">Casa #</th>
-                            <th style="width: 33%;">Questão / Situação</th>
-                            <th style="width: 33%;">Resposta / Expressão</th>
-                        </tr>
-                    </thead>
-                    <tbody id="reportTableBody">
-                    </tbody>
-                </table>
+                <div id="reportBlocksContainer"></div>
 
                 <div class="pdf-footer">
-                    Documento gerado pelo jogo digital "Trilha das Emoções" - Registro sintético em tabela para acompanhamento pedagógico e familiar.
+                    Documento gerado pelo jogo digital "Trilha das Emoções" - Registro pedagógico contínuo.
                 </div>
             </div>
 
             <div style="display:flex; justify-content:center; gap:15px; flex-wrap:wrap; margin-top:10px;">
-                <button class="export-pdf-btn" onclick="exportConsolidatedPDF()">📄 EXPORTAR RELATÓRIO EM PDF</button>
+                <button class="export-pdf-btn" onclick="exportConsolidatedPDF()">📄 EXPORTAR ESTE RELATÓRIO EM PDF</button>
                 <button class="start-game-btn" onclick="location.reload()" style="max-width:260px; margin-top:15px; background:#ff4757; box-shadow: 0 5px 0 #d63031;">JOGAR NOVAMENTE 🔄</button>
             </div>
         </div>
@@ -850,30 +848,10 @@
     </div>
 
     <script>
-        const skinColors = {
-            clarissimo: "#ffe0bd",
-            claro: "#f1c27d",
-            pardo: "#e0ac69",
-            negro: "#8d5524",
-            indigena: "#c68642"
-        };
+        const skinColors = { clarissimo: "#ffe0bd", claro: "#f1c27d", pardo: "#e0ac69", negro: "#8d5524", indigena: "#c68642" };
+        const eyeColors = { castanho: "#4b2e1e", preto: "#1b1b1b", azul: "#2980b9", verde: "#27ae60" };
+        const hairColors = { preto: "#1a1a1a", castanho: "#4a2c11", loiro: "#f39c12", ruivo: "#d35400", grisalho: "#bdc3c7" };
 
-        const eyeColors = {
-            castanho: "#4b2e1e",
-            preto: "#1b1b1b",
-            azul: "#2980b9",
-            verde: "#27ae60"
-        };
-
-        const hairColors = {
-            preto: "#1a1a1a",
-            castanho: "#4a2c11",
-            loiro: "#f39c12",
-            ruivo: "#d35400",
-            grisalho: "#bdc3c7"
-        };
-
-        // GERADOR SVG DIRETO E LIMPO
         function generateFaceSVG(config) {
             if (!config) config = {};
             const gender = config.gender || "menino";
@@ -885,96 +863,35 @@
             const hearingDev = config.hearingDevice || "nenhum";
 
             let backHairSVG = "";
-            if (hairT === "longo") {
-                backHairSVG = `<path d="M 12 35 C 10 75, 20 88, 30 92 L 70 92 C 80 88, 90 75, 88 35 Z" fill="${hairC}"/>`;
-            } else if (hairT === "cacheado") {
-                backHairSVG = `<circle cx="23" cy="48" r="18" fill="${hairC}"/><circle cx="77" cy="48" r="18" fill="${hairC}"/><circle cx="18" cy="63" r="15" fill="${hairC}"/><circle cx="82" cy="63" r="15" fill="${hairC}"/>`;
-            } else if (hairT === "afro") {
-                backHairSVG = `<circle cx="50" cy="40" r="35" fill="${hairC}"/>`;
-            } else if (hairT === "maria_chiquinha") {
-                backHairSVG = `
-                    <circle cx="12" cy="32" r="16" fill="${hairC}"/>
-                    <circle cx="88" cy="32" r="16" fill="${hairC}"/>
-                    <path d="M 10 30 C 5 50, 15 65, 12 75" stroke="${hairC}" stroke-width="8" fill="none" stroke-linecap="round"/>
-                    <path d="M 90 30 C 95 50, 85 65, 88 75" stroke="${hairC}" stroke-width="8" fill="none" stroke-linecap="round"/>
-                `;
-            }
+            if (hairT === "longo") backHairSVG = `<path d="M 12 35 C 10 75, 20 88, 30 92 L 70 92 C 80 88, 90 75, 88 35 Z" fill="${hairC}"/>`;
+            else if (hairT === "cacheado") backHairSVG = `<circle cx="23" cy="48" r="18" fill="${hairC}"/><circle cx="77" cy="48" r="18" fill="${hairC}"/><circle cx="18" cy="63" r="15" fill="${hairC}"/><circle cx="82" cy="63" r="15" fill="${hairC}"/>`;
+            else if (hairT === "afro") backHairSVG = `<circle cx="50" cy="40" r="35" fill="${hairC}"/>`;
+            else if (hairT === "maria_chiquinha") backHairSVG = `<circle cx="12" cy="32" r="16" fill="${hairC}"/><circle cx="88" cy="32" r="16" fill="${hairC}"/><path d="M 10 30 C 5 50, 15 65, 12 75" stroke="${hairC}" stroke-width="8" fill="none"/><path d="M 90 30 C 95 50, 85 65, 88 75" stroke="${hairC}" stroke-width="8" fill="none"/>`;
 
             let frontHairSVG = "";
-            if (hairT === "curto") {
-                frontHairSVG = `<path d="M 22 36 C 25 15, 75 15, 78 36 C 70 24, 30 24, 22 36 Z" fill="${hairC}"/>`;
-            } else if (hairT === "longo") {
-                frontHairSVG = `<path d="M 22 36 C 30 18, 70 18, 78 36 C 65 25, 55 38, 50 32 C 45 38, 35 25, 22 36 Z" fill="${hairC}"/>`;
-            } else if (hairT === "cacheado") {
-                frontHairSVG = `<circle cx="30" cy="22" r="10" fill="${hairC}"/><circle cx="50" cy="18" r="11" fill="${hairC}"/><circle cx="70" cy="22" r="10" fill="${hairC}"/>`;
-            } else if (hairT === "afro") {
-                frontHairSVG = `<circle cx="35" cy="22" r="12" fill="${hairC}"/><circle cx="65" cy="22" r="12" fill="${hairC}"/>`;
-            } else if (hairT === "maria_chiquinha") {
-                frontHairSVG = `<path d="M 22 36 C 30 20, 70 20, 78 36 C 65 26, 50 28, 22 36 Z" fill="${hairC}"/>`;
-            }
+            if (hairT === "curto") frontHairSVG = `<path d="M 22 36 C 25 15, 75 15, 78 36 C 70 24, 30 24, 22 36 Z" fill="${hairC}"/>`;
+            else if (hairT === "longo") frontHairSVG = `<path d="M 22 36 C 30 18, 70 18, 78 36 C 65 25, 55 38, 50 32 C 45 38, 35 25, 22 36 Z" fill="${hairC}"/>`;
+            else if (hairT === "cacheado") frontHairSVG = `<circle cx="30" cy="22" r="10" fill="${hairC}"/><circle cx="50" cy="18" r="11" fill="${hairC}"/><circle cx="70" cy="22" r="10" fill="${hairC}"/>`;
+            else if (hairT === "afro") frontHairSVG = `<circle cx="35" cy="22" r="12" fill="${hairC}"/><circle cx="65" cy="22" r="12" fill="${hairC}"/>`;
+            else if (hairT === "maria_chiquinha") frontHairSVG = `<path d="M 22 36 C 30 20, 70 20, 78 36 C 65 26, 50 28, 22 36 Z" fill="${hairC}"/>`;
 
             let hearingSVG = "";
             if (hearingDev === "aparelho_aasi") {
-                hearingSVG = `
-                    <circle cx="21" cy="51" r="3" fill="#ff4757" stroke="#ffffff" stroke-width="0.8"/>
-                    <path d="M 21 48 C 18 43, 16 45, 15 48" fill="none" stroke="#dfe4ea" stroke-width="1.8"/>
-                    <path d="M 14 47 C 12 43, 14 38, 17 40 C 18 42, 17 46, 14 47 Z" fill="#ff4757" stroke="#ffffff" stroke-width="1"/>
-                    <g transform="translate(4, 76) scale(0.7)">
-                        <circle cx="12" cy="12" r="11" fill="#4a90e2" stroke="#ffffff" stroke-width="2"/>
-                        <text x="12" y="16" font-size="12" text-anchor="middle" fill="white">🧏</text>
-                    </g>
-                `;
+                hearingSVG = `<circle cx="21" cy="51" r="3" fill="#ff4757" stroke="#ffffff" stroke-width="0.8"/><path d="M 21 48 C 18 43, 16 45, 15 48" fill="none" stroke="#dfe4ea" stroke-width="1.8"/><path d="M 14 47 C 12 43, 14 38, 17 40 C 18 42, 17 46, 14 47 Z" fill="#ff4757" stroke="#ffffff" stroke-width="1"/><g transform="translate(4, 76) scale(0.7)"><circle cx="12" cy="12" r="11" fill="#4a90e2" stroke="#ffffff" stroke-width="2"/><text x="12" y="16" font-size="12" text-anchor="middle" fill="white">🧏</text></g>`;
             } else if (hearingDev === "implante_coclear") {
-                hearingSVG = `
-                    <circle cx="14" cy="34" r="5" fill="#3742fa" stroke="#ffffff" stroke-width="1.2"/>
-                    <circle cx="14" cy="34" r="2" fill="#2ed573"/>
-                    <path d="M 14 39 Q 13 44 15 48" fill="none" stroke="#2f3542" stroke-width="1.5"/>
-                    <path d="M 14 47 C 12 43, 14 38, 17 40 C 18 42, 17 46, 14 47 Z" fill="#3742fa" stroke="#ffffff" stroke-width="1"/>
-                    <circle cx="21" cy="51" r="3" fill="#3742fa" stroke="#ffffff" stroke-width="0.8"/>
-                    <g transform="translate(4, 76) scale(0.7)">
-                        <circle cx="12" cy="12" r="11" fill="#3742fa" stroke="#ffffff" stroke-width="2"/>
-                        <text x="12" y="16" font-size="12" text-anchor="middle" fill="white">🧏</text>
-                    </g>
-                `;
+                hearingSVG = `<circle cx="14" cy="34" r="5" fill="#3742fa" stroke="#ffffff" stroke-width="1.2"/><circle cx="14" cy="34" r="2" fill="#2ed573"/><path d="M 14 39 Q 13 44 15 48" fill="none" stroke="#2f3542" stroke-width="1.5"/><path d="M 14 47 C 12 43, 14 38, 17 40 C 18 42, 17 46, 14 47 Z" fill="#3742fa" stroke="#ffffff" stroke-width="1"/><circle cx="21" cy="51" r="3" fill="#3742fa" stroke="#ffffff" stroke-width="0.8"/><g transform="translate(4, 76) scale(0.7)"><circle cx="12" cy="12" r="11" fill="#3742fa" stroke="#ffffff" stroke-width="2"/><text x="12" y="16" font-size="12" text-anchor="middle" fill="white">🧏</text></g>`;
             } else if (hearingDev === "surdo_sinalizador") {
-                hearingSVG = `
-                    <g transform="translate(4, 74) scale(0.78)">
-                        <circle cx="12" cy="12" r="11" fill="#2ed573" stroke="#ffffff" stroke-width="2"/>
-                        <text x="12" y="16" font-size="12" text-anchor="middle" fill="white">🧏</text>
-                    </g>
-                `;
+                hearingSVG = `<g transform="translate(4, 74) scale(0.78)"><circle cx="12" cy="12" r="11" fill="#2ed573" stroke="#ffffff" stroke-width="2"/><text x="12" y="16" font-size="12" text-anchor="middle" fill="white">🧏</text></g>`;
             }
 
             let accessorySVG = "";
-            if (acc === "oculos") {
-                accessorySVG = `
-                    <circle cx="36" cy="48" r="9" fill="none" stroke="#2c3e50" stroke-width="2.5"/>
-                    <circle cx="64" cy="48" r="9" fill="none" stroke="#2c3e50" stroke-width="2.5"/>
-                    <line x1="45" y1="48" x2="55" y2="48" stroke="#2c3e50" stroke-width="2.5"/>
-                    <line x1="18" y1="45" x2="27" y2="47" stroke="#2c3e50" stroke-width="2"/>
-                    <line x1="82" y1="45" x2="73" y2="47" stroke="#2c3e50" stroke-width="2"/>
-                `;
-            } else if (acc === "laco") {
-                accessorySVG = `
-                    <path d="M 68 18 C 60 12, 60 26, 68 20 C 76 26, 76 12, 68 18 Z" fill="#ff4757"/>
-                    <circle cx="68" cy="19" r="3" fill="#ffffff"/>
-                `;
-            } else if (acc === "boné") {
-                accessorySVG = `
-                    <path d="M 22 28 C 25 10, 75 10, 78 28 Z" fill="#ff4757"/>
-                    <path d="M 18 28 Q 50 32 88 24 L 84 28 Q 50 35 18 28 Z" fill="#d63031"/>
-                `;
-            } else if (acc === "brinco") {
-                accessorySVG = `
-                    <circle cx="21" cy="58" r="2.5" fill="#feca57"/>
-                    <circle cx="79" cy="58" r="2.5" fill="#feca57"/>
-                `;
-            }
+            if (acc === "oculos") accessorySVG = `<circle cx="36" cy="48" r="9" fill="none" stroke="#2c3e50" stroke-width="2.5"/><circle cx="64" cy="48" r="9" fill="none" stroke="#2c3e50" stroke-width="2.5"/><line x1="45" y1="48" x2="55" y2="48" stroke="#2c3e50" stroke-width="2.5"/><line x1="18" y1="45" x2="27" y2="47" stroke="#2c3e50" stroke-width="2"/><line x1="82" y1="45" x2="73" y2="47" stroke="#2c3e50" stroke-width="2"/>`;
+            else if (acc === "laco") accessorySVG = `<path d="M 68 18 C 60 12, 60 26, 68 20 C 76 26, 76 12, 68 18 Z" fill="#ff4757"/><circle cx="68" cy="19" r="3" fill="#ffffff"/>`;
+            else if (acc === "boné") accessorySVG = `<path d="M 22 28 C 25 10, 75 10, 78 28 Z" fill="#ff4757"/><path d="M 18 28 Q 50 32 88 24 L 84 28 Q 50 35 18 28 Z" fill="#d63031"/>`;
+            else if (acc === "brinco") accessorySVG = `<circle cx="21" cy="58" r="2.5" fill="#feca57"/><circle cx="79" cy="58" r="2.5" fill="#feca57"/>`;
 
             let mouthSVG = `<path d="M 38 64 Q 50 74 62 64" stroke="#2c3e50" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
-            if (gender === "menina") {
-                mouthSVG = `<path d="M 38 64 Q 50 74 62 64" stroke="#e84118" stroke-width="3" fill="rgba(232, 65, 24, 0.15)" stroke-linecap="round"/>`;
-            }
+            if (gender === "menina") mouthSVG = `<path d="M 38 64 Q 50 74 62 64" stroke="#e84118" stroke-width="3" fill="rgba(232, 65, 24, 0.15)" stroke-linecap="round"/>`;
 
             return `
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
@@ -988,12 +905,8 @@
                     <circle cx="64" cy="48" r="3" fill="${eye}"/>
                     <circle cx="37" cy="46" r="1" fill="#ffffff"/>
                     <circle cx="65" cy="46" r="1" fill="#ffffff"/>
-                    ${gender === "menina" ? `
-                        <path d="M 31 43 L 34 44 M 36 42 L 37 44 M 40 43 L 39 44" stroke="${hairC}" stroke-width="1.2"/>
-                        <path d="M 69 43 L 66 44 M 64 42 L 63 44 M 60 43 L 61 44" stroke="${hairC}" stroke-width="1.2"/>
-                    ` : ''}
-                    <path d="M 30 39 Q 36 36 42 40" stroke="${hairC}" stroke-width="2" fill="none" stroke-linecap="round"/>
-                    <path d="M 58 40 Q 64 36 70 39" stroke="${hairC}" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    ${gender === "menina" ? `<path d="M 31 43 L 34 44 M 36 42 L 37 44 M 40 43 L 39 44" stroke="${hairC}" stroke-width="1.2"/><path d="M 69 43 L 66 44 M 64 42 L 63 44 M 60 43 L 61 44" stroke="${hairC}" stroke-width="1.2"/>` : ''}
+                    <path d="M 30 39 Q 36 36 42 40" stroke="${hairC}" stroke-width="2" fill="none"/><path d="M 58 40 Q 64 36 70 39" stroke="${hairC}" stroke-width="2" fill="none"/>
                     <path d="M 50 49 Q 47 56 50 57 Q 53 56 50 49" fill="rgba(0,0,0,0.1)"/>
                     <ellipse cx="30" cy="57" rx="4.5" ry="3" fill="rgba(255,105,180,0.3)"/>
                     <ellipse cx="70" cy="57" rx="4.5" ry="3" fill="rgba(255,105,180,0.3)"/>
@@ -1008,168 +921,85 @@
         const boardData = [
             { id: 0, title: "INÍCIO", icon: "➡️", color: "tile-red", options: [] },
             { id: 1, title: "ME ALEGRO QUANDO...", icon: "☀️", color: "tile-orange", options: [
-                { icon: "🎈", label: "Brincar com amigos" },
-                { icon: "🍦", label: "Comer algo gostoso" },
-                { icon: "🎁", label: "Ganhar um presente" },
-                { icon: "🏆", label: "Conseguir fazer algo" },
-                { icon: "🐶", label: "Brincar com pets" },
-                { icon: "👨‍👩‍👧", label: "Estar com a família" }
+                { icon: "🎈", label: "Brincar com amigos" }, { icon: "🍦", label: "Comer algo gostoso" }, { icon: "🎁", label: "Ganhar um presente" },
+                { icon: "🏆", label: "Conseguir fazer algo" }, { icon: "🐶", label: "Brincar com pets" }, { icon: "👨‍👩‍👧", label: "Estar com a família" }
             ]},
             { id: 2, title: "QUANDO FICO TRISTE PREFIRO...", icon: "😢", color: "tile-yellow", options: [
-                { icon: "🫂", label: "Pedir um abraço" },
-                { icon: "🛋️", label: "Ficar no meu canto" },
-                { icon: "🎨", label: "Desenhar ou ouvir música" },
-                { icon: "🗣️", label: "Conversar com alguém" },
-                { icon: "🛌", label: "Descansar / Dormir" },
-                { icon: "🧸", label: "Pegar meu brinquedo" }
+                { icon: "🫂", label: "Pedir um abraço" }, { icon: "🛋️", label: "Ficar no meu canto" }, { icon: "🎨", label: "Desenhar ou ouvir música" },
+                { icon: "🗣️", label: "Conversar com alguém" }, { icon: "🛌", label: "Descansar / Dormir" }, { icon: "🧸", label: "Pegar meu brinquedo" }
             ]},
             { id: 3, title: "NÃO GOSTO QUANDO...", icon: "☁️", color: "tile-green", options: [
-                { icon: "🗣️❌", label: "Gritam comigo" },
-                { icon: "💔", label: "Me excluem da brincadeira" },
-                { icon: "🧸❌", label: "Mexem nas minhas coisas" },
-                { icon: "🌧️", label: "Estragam os planos" },
-                { icon: "🔊", label: "Faz barulho muito alto" },
-                { icon: "❌", label: "Algo dá errado" }
+                { icon: "🗣️❌", label: "Gritam comigo" }, { icon: "💔", label: "Me excluem da brincadeira" }, { icon: "🧸❌", label: "Mexem nas minhas coisas" },
+                { icon: "🌧️", label: "Estragam os planos" }, { icon: "🔊", label: "Faz barulho muito alto" }, { icon: "❌", label: "Algo dá errado" }
             ]},
             { id: 4, title: "AMO FICAR...", icon: "💖", color: "tile-cyan", options: [
-                { icon: "🏡", label: "Em casa descansando" },
-                { icon: "👨‍👩‍👧", label: "Junto da minha família" },
-                { icon: "🛝", label: "No parque ao ar livre" },
-                { icon: "🎮", label: "Jogando com amigos" },
-                { icon: "🐶", label: "Perto do meu pet" },
-                { icon: "📖", label: "Lendo ou desenhando" }
+                { icon: "🏡", label: "Em casa descansando" }, { icon: "👨‍👩‍👧", label: "Junto da minha família" }, { icon: "🛝", label: "No parque ao ar livre" },
+                { icon: "🎮", label: "Jogando com amigos" }, { icon: "🐶", label: "Perto do meu pet" }, { icon: "📖", label: "Lendo ou desenhando" }
             ]},
             { id: 5, title: "LUGAR QUE ME ACALMA...", icon: "☁️", color: "tile-blue", options: [
-                { icon: "🛏️", label: "Meu quarto / Minha cama" },
-                { icon: "🌳", label: "Junto à natureza" },
-                { icon: "🏠", label: "Casa dos meus avós" },
-                { icon: "🏖️", label: "Praia / Perto da água" },
-                { icon: "📚", label: "Cantinho tranquilo" },
-                { icon: "🫂", label: "Nos braços de quem amo" }
+                { icon: "🛏️", label: "Meu quarto / Minha cama" }, { icon: "🌳", label: "Junto à natureza" }, { icon: "🏠", label: "Casa dos meus avós" },
+                { icon: "🏖️", label: "Praia / Perto da água" }, { icon: "📚", label: "Cantinho tranquilo" }, { icon: "🫂", label: "Nos braços de quem amo" }
             ]},
             { id: 6, title: "VOLTE 03 CASAS", icon: "🔄", color: "tile-blue", action: -3, options: [] },
             { id: 7, title: "O QUE ME DEIXA TRISTE...", icon: "😢", color: "tile-purple", options: [
-                { icon: "💔", label: "Ficar longe de quem amo" },
-                { icon: "🐶", label: "Ver um pet dodói" },
-                { icon: "🧸", label: "Perder um brinquedo" },
-                { icon: "🗣️", label: "Levar uma bronca" },
-                { icon: "🤒", label: "Ficar doente" },
-                { icon: "🌧️", label: "Não poder ir brincar" }
+                { icon: "💔", label: "Ficar longe de quem amo" }, { icon: "🐶", label: "Ver um pet dodói" }, { icon: "🧸", label: "Perder um brinquedo" },
+                { icon: "🗣️", label: "Levar uma bronca" }, { icon: "🤒", label: "Ficar doente" }, { icon: "🌧️", label: "Não poder ir brincar" }
             ]},
             { id: 8, title: "SINTO CIÚMES QUANDO...", icon: "☁️", color: "tile-purple", options: [
-                { icon: "🧸", label: "Usam meu brinquedo" },
-                { icon: "🫂", label: "Amigo brinca com outro" },
-                { icon: "👶", label: "Dão atenção a outro bebê" },
-                { icon: "🏆", label: "Ganham algo que eu queria" },
-                { icon: "📱", label: "Dão atenção ao celular" },
-                { icon: "🍕", label: "Dividem meu lanche" }
+                { icon: "🧸", label: "Usam meu brinquedo" }, { icon: "🫂", label: "Amigo brinca com outro" }, { icon: "👶", label: "Dão atenção a outro bebê" },
+                { icon: "🏆", label: "Ganham algo que eu queria" }, { icon: "📱", label: "Dão atenção ao celular" }, { icon: "🍕", label: "Dividem meu lanche" }
             ]},
             { id: 9, title: "FICO ASSUSTADO QUANDO...", icon: "😱", color: "tile-red", options: [
-                { icon: "⚡", label: "Ouço trovões altos" },
-                { icon: "🕷️", label: "Vejo um inseto/bicho" },
-                { icon: "👻", label: "Vejo cena assustadora" },
-                { icon: "🌑", label: "Fica tudo escuro" },
-                { icon: "🔊", label: "Sons altos de surpresa" },
-                { icon: "👤", label: "Vejo um desconhecido" }
+                { icon: "⚡", label: "Ouço trovões altos" }, { icon: "🕷️", label: "Vejo um inseto/bicho" }, { icon: "👻", label: "Vejo cena assustadora" },
+                { icon: "🌑", label: "Fica tudo escuro" }, { icon: "🔊", label: "Sons altos de surpresa" }, { icon: "👤", label: "Vejo um desconhecido" }
             ]},
             { id: 10, title: "DETESTO FICAR...", icon: "😡", color: "tile-orange", options: [
-                { icon: "🧍", label: "Esperando em filas" },
-                { icon: "🛋️", label: "Sem nada para fazer" },
-                { icon: "🤒", label: "Doente na cama" },
-                { icon: "🤐", label: "Sem poder falar o que sinto" },
-                { icon: "🔊", label: "Em lugares barulhentos" },
-                { icon: "🥵", label: "Com muito calor" }
+                { icon: "🧍", label: "Esperando em filas" }, { icon: "🛋️", label: "Sem nada para fazer" }, { icon: "🤒", label: "Doente na cama" },
+                { icon: "🤐", label: "Sem poder falar o que sinto" }, { icon: "🔊", label: "Em lugares barulhentos" }, { icon: "🥵", label: "Com muito calor" }
             ]},
             { id: 11, title: "VOLTE 02 CASAS", icon: "🏠", color: "tile-yellow", action: -2, options: [] },
             { id: 12, title: "AMO QUANDO...", icon: "💖", color: "tile-green", options: [
-                { icon: "🫂", label: "Recebo um abraço quentinho" },
-                { icon: "🎂", label: "Comemoram meu aniversário" },
-                { icon: "🌟", label: "Elogiam o que eu fiz" },
-                { icon: "🤝", label: "Me ajudam com algo difícil" },
-                { icon: "🍕", label: "Comemos minha comida favorita" },
-                { icon: "🎁", label: "Recebo uma surpresa boa" }
+                { icon: "🫂", label: "Recebo um abraço quentinho" }, { icon: "🎂", label: "Comemoram meu aniversário" }, { icon: "🌟", label: "Elogiam o que eu fiz" },
+                { icon: "🤝", label: "Me ajudam com algo difícil" }, { icon: "🍕", label: "Comemos minha comida favorita" }, { icon: "🎁", label: "Recebo uma surpresa boa" }
             ]},
             { id: 13, title: "COMO AJUDARIA UM AMIGO TRISTE?", icon: "👦👧", color: "tile-cyan", options: [
-                { icon: "🫂", label: "Dando um abraço forte" },
-                { icon: "🎧", label: "Escutando o que ele sente" },
-                { icon: "🧸", label: "Dividindo meus brinquedos" },
-                { icon: "💬", label: "Dizendo coisas carinhosas" },
-                { icon: "🎈", label: "Chamando para brincar" },
-                { icon: "👨‍🏫", label: "Chamando um adulto responsável" }
+                { icon: "🫂", label: "Dando um abraço forte" }, { icon: "🎧", label: "Escutando o que ele sente" }, { icon: "🧸", label: "Dividindo meus brinquedos" },
+                { icon: "💬", label: "Dizendo coisas carinhosas" }, { icon: "🎈", label: "Chamando para brincar" }, { icon: "👨‍🏫", label: "Chamando um adulto responsável" }
             ]},
             { id: 14, title: "O QUE TE FAZ SENTIR VERGONHA?", icon: "😳", color: "tile-blue", options: [
-                { icon: "🎤", label: "Falar em público / aula" },
-                { icon: "🤸", label: "Tropeçar / Cair na frente dos outros" },
-                { icon: "❌", label: "Errar uma resposta" },
-                { icon: "📸", label: "Tirar fotos em grupo" },
-                { icon: "💃", label: "Dançar ou me apresentar" },
-                { icon: "🌟", label: "Receber muitos elogios de surpresa" }
+                { icon: "🎤", label: "Falar em público / aula" }, { icon: "🤸", label: "Tropeçar / Cair na frente dos outros" }, { icon: "❌", label: "Errar uma resposta" },
+                { icon: "📸", label: "Tirar fotos em grupo" }, { icon: "💃", label: "Dançar ou me apresentar" }, { icon: "🌟", label: "Receber muitos elogios de surpresa" }
             ]},
             { id: 15, title: "O QUE É FELICIDADE PARA VOCÊ?", icon: "☀️", color: "tile-blue", options: [
-                { icon: "👨‍👩‍👧", label: "Estar com quem eu amo" },
-                { icon: "🛝", label: "Brincar e sorrir bastante" },
-                { icon: "🍕", label: "Comer coisas gostosas" },
-                { icon: "🐶", label: "Brincar com os animais" },
-                { icon: "🏖️", label: "Viajar ou passear" },
-                { icon: "😴", label: "Ter paz e tranquilidade" }
+                { icon: "👨‍👩‍👧", label: "Estar com quem eu amo" }, { icon: "🛝", label: "Brincar e sorrir bastante" }, { icon: "🍕", label: "Comer coisas gostosas" },
+                { icon: "🐶", label: "Brincar com os animais" }, { icon: "🏖️", label: "Viajar ou passear" }, { icon: "😴", label: "Ter paz e tranquilidade" }
             ]},
             { id: 16, title: "DO QUE VOCÊ TEM MEDO?", icon: "🟣", color: "tile-purple", options: [
-                { icon: "🌑", label: "Escuro" },
-                { icon: "⚡", label: "Trovões e tempestades" },
-                { icon: "🕷️", label: "Insectos / Animais" },
-                { icon: "💉", label: "Injeção / Ir ao médico" },
-                { icon: "👻", label: "Histórias assustadoras" },
-                { icon: "🏔️", label: "Lugares muito altos" }
+                { icon: "🌑", label: "Escuro" }, { icon: "⚡", label: "Trovões e tempestades" }, { icon: "🕷️", label: "Insectos / Animais" },
+                { icon: "💉", label: "Injeção / Ir ao médico" }, { icon: "👻", label: "Histórias assustadoras" }, { icon: "🏔️", label: "Lugares muito altos" }
             ]},
             { id: 17, title: "DO QUE VOCÊ TEM MEDO? (ANIMAL)", icon: "🐶", color: "tile-green", options: [
-                { icon: "🐍", label: "Cobra" },
-                { icon: "🕷️", label: "Aranha" },
-                { icon: "🐕", label: "Cão bravo" },
-                { icon: "🦂", label: "Escorpião" },
-                { icon: "🦈", label: "Tubarão" },
-                { icon: "🐝", label: "Abelha / Vespa" }
+                { icon: "🐍", label: "Cobra" }, { icon: "🕷️", label: "Aranha" }, { icon: "🐕", label: "Cão bravo" },
+                { icon: "scorpião", label: "Escorpião" }, { icon: "🦈", label: "Tubarão" }, { icon: "🐝", label: "Abelha / Vespa" }
             ]},
             { id: 18, title: "VOCÊ FICA IRRITADO QUANDO...", icon: "😡", color: "tile-yellow", options: [
-                { icon: "🔊", label: "Há muito barulho de fundo" },
-                { icon: "🥱", label: "Estou com muito sono/cansaço" },
-                { icon: "🍔", label: "Estou com fome" },
-                { icon: "📲", label: "A internet ou jogo trava" },
-                { icon: "🧦", label: "Roupa/Etiqueta me incomoda" },
-                { icon: "🛑", label: "Me interrompem quando falo" }
+                { icon: "🔊", label: "Há muito barulho de fundo" }, { icon: "🥱", label: "Estou com muito sono/cansaço" }, { icon: "🍔", label: "Estou com fome" },
+                { icon: "📲", label: "A internet ou jogo trava" }, { icon: "🧦", label: "Roupa/Etiqueta me incomoda" }, { icon: "🛑", label: "Me interrompem quando falo" }
             ]},
             { id: 19, title: "DIGA ALGO QUE TE DEIXA COM RAIVA", icon: "💬", color: "tile-orange", options: [
-                { icon: "🗣️", label: "Gritarem comigo" },
-                { icon: "💔", label: "Injustiça ou mentira" },
-                { icon: "🧸", label: "Pegarem minhas coisas" },
-                { icon: "❌", label: "Atrapalharem de propósito" },
-                { icon: "🔒", label: "Não me deixarem brincar" },
-                { icon: "🛑", label: "Regras parecerem injustas" }
+                { icon: "🗣️", label: "Gritarem comigo" }, { icon: "💔", label: "Injustiça ou mentira" }, { icon: "🧸", label: "Pegarem minhas coisas" },
+                { icon: "❌", label: "Atrapalharem de propósito" }, { icon: "🔒", label: "Não me deixarem brincar" }, { icon: "🛑", label: "Regras parecerem injustas" }
             ]},
             { id: 20, title: "VOLTE 02 CASAS", icon: "⏪", color: "tile-red", action: -2, options: [] },
             { id: 21, title: "FAÇA UMA EXPRESSÃO FELIZ", icon: "💖", color: "tile-pink", options: [
-                { icon: "😀", label: "Sorriso bem grande" },
-                { icon: "🎉", label: "Pular de alegria" },
-                { icon: "👍", label: "Sinal de positivo" },
-                { icon: "🤩", label: "Olhos radiantes" },
-                { icon: "👋", label: "Acenar com as mãos" },
-                { icon: "💖", label: "Coração com as mãos" }
+                { icon: "😀", label: "Sorriso bem grande" }, { icon: "🎉", label: "Pular de alegria" }, { icon: "👍", label: "Sinal de positivo" },
+                { icon: "🤩", label: "Olhos radiantes" }, { icon: "👋", label: "Acenar com as mãos" }, { icon: "💖", label: "Coração com as mãos" }
             ]},
             { id: 22, title: "PARABÉNS! VOCÊ CHEGOU AO FINAL", icon: "🏆", color: "tile-green", options: [] }
         ];
 
-        const colorMap = {
-            "c-blue": "#1e90ff",
-            "c-yellow": "#ffa502",
-            "c-red": "#ff4757",
-            "c-black": "#2f3542"
-        };
-
-        const colors = [
-            { id: "c-blue", name: "Azul" },
-            { id: "c-yellow", name: "Amarelo" },
-            { id: "c-red", name: "Vermelho" },
-            { id: "c-black", name: "Preto" }
-        ];
+        const colorMap = { "c-blue": "#1e90ff", "c-yellow": "#ffa502", "c-red": "#ff4757", "c-black": "#2f3542" };
+        const colors = [{ id: "c-blue", name: "Azul" }, { id: "c-yellow", name: "Amarelo" }, { id: "c-red", name: "Vermelho" }, { id: "c-black", name: "Preto" }];
 
         let activePlayerCount = 2;
         let activePlayers = [];
@@ -1194,13 +1024,9 @@
             for (let i = 0; i < activePlayerCount; i++) {
                 if (!playerAvatarConfigs[i]) {
                     playerAvatarConfigs[i] = {
-                        gender: i === 1 ? "menina" : "menino",
-                        skin: i === 1 ? "negro" : "claro",
-                        eye: "castanho",
-                        hairType: i === 1 ? "afro" : "curto",
-                        hairColor: "preto",
-                        accessory: "nenhum",
-                        hearingDevice: "aparelho_aasi"
+                        gender: i === 1 ? "menina" : "menino", skin: i === 1 ? "negro" : "claro",
+                        eye: "castanho", hairType: i === 1 ? "afro" : "curto", hairColor: "preto",
+                        accessory: "nenhum", hearingDevice: "aparelho_aasi"
                     };
                 }
 
@@ -1300,14 +1126,7 @@
 
         function updateAvatarConfig(playerIdx, prop, value) {
             playerAvatarConfigs[playerIdx][prop] = value;
-            // Se o jogo já estiver em execução ou tiver jogadores inicializados, mantém em sincronia:
-            if (activePlayers[playerIdx]) {
-                activePlayers[playerIdx].avatarConfig[prop] = value;
-            }
-            const previewEl = document.getElementById(`avatarPreview-${playerIdx}`);
-            if (previewEl) {
-                previewEl.innerHTML = generateFaceSVG(playerAvatarConfigs[playerIdx]);
-            }
+            document.getElementById(`avatarPreview-${playerIdx}`).innerHTML = generateFaceSVG(playerAvatarConfigs[playerIdx]);
         }
 
         function selectPlayerColor(playerIdx, colorId) {
@@ -1322,25 +1141,19 @@
             const defaultColors = ["c-blue", "c-yellow", "c-red", "c-black"];
 
             for (let i = 0; i < activePlayerCount; i++) {
-                const nameInput = document.getElementById(`pName-${i}`);
-                const name = nameInput ? nameInput.value.trim() : `Jogador ${i+1}`;
+                const name = document.getElementById(`pName-${i}`).value.trim() || `Jogador ${i+1}`;
                 const color = activePlayers[i]?.color || defaultColors[i];
-                
-                // Cópia profunda e garantida da configuração do avatar do jogador
-                const avatarConfigCopy = JSON.parse(JSON.stringify(playerAvatarConfigs[i]));
-
                 activePlayers.push({
                     id: i + 1,
-                    name: name || `Jogador ${i+1}`,
+                    name,
                     color,
-                    avatarConfig: avatarConfigCopy,
+                    avatarConfig: JSON.parse(JSON.stringify(playerAvatarConfigs[i])),
                     pos: 0,
                     finished: false
                 });
             }
 
             currentPlayerIndex = 0;
-
             document.getElementById("setupScreen").classList.remove("active");
             document.getElementById("gameScreen").classList.add("active");
 
@@ -1357,14 +1170,12 @@
                 const tileDiv = document.createElement("div");
                 tileDiv.className = `tile ${tile.color}`;
                 tileDiv.id = `tile-${index}`;
-
                 tileDiv.innerHTML = `
                     <span class="tile-number">${index}</span>
                     <div class="tile-icon">${tile.icon}</div>
                     <div class="tile-text">${tile.title}</div>
                     <div class="pawns-container" id="pawns-${index}"></div>
                 `;
-
                 grid.appendChild(tileDiv);
             });
 
@@ -1373,7 +1184,6 @@
 
         function updatePawns() {
             document.querySelectorAll(".pawns-container").forEach(c => c.innerHTML = "");
-
             activePlayers.forEach(p => {
                 const container = document.getElementById(`pawns-${p.pos}`);
                 if (container) {
@@ -1401,7 +1211,6 @@
 
             const p = activePlayers[currentPlayerIndex];
             document.getElementById("currentPlayerName").innerText = `Vez de ${p.name}`;
-            
             const avatarContainer = document.getElementById("playerAvatarPreview");
             avatarContainer.style.borderColor = colorMap[p.color] || "#2f3542";
             avatarContainer.innerHTML = generateFaceSVG(p.avatarConfig);
@@ -1430,9 +1239,7 @@
         }
 
         function drawDice(val) {
-            const dots = {
-                1: [5], 2: [1, 9], 3: [1, 5, 9], 4: [1, 3, 7, 9], 5: [1, 3, 5, 7, 9], 6: [1, 3, 4, 6, 7, 9]
-            };
+            const dots = { 1: [5], 2: [1, 9], 3: [1, 5, 9], 4: [1, 3, 7, 9], 5: [1, 3, 5, 7, 9], 6: [1, 3, 4, 6, 7, 9] };
             for (let i = 1; i <= 9; i++) document.getElementById(`d${i}`).classList.remove("active");
             dots[val].forEach(i => document.getElementById(`d${i}`).classList.add("active"));
         }
@@ -1543,13 +1350,11 @@
                 typeLabel = "Resposta Digitada / Escrita";
             }
 
-            // Clona diretamente a configuração atual do jogador da partida ativa
-            const currentConfig = JSON.parse(JSON.stringify(player.avatarConfig));
-
             gameAnswersLog.push({
+                playerId: player.id,
                 player: player.name,
                 playerColor: player.color,
-                playerAvatarConfig: currentConfig,
+                playerAvatarConfig: JSON.parse(JSON.stringify(player.avatarConfig)),
                 tileNum: player.pos,
                 question: tileTitle,
                 answer: ansText,
@@ -1575,7 +1380,7 @@
             updateTurnCard();
         }
 
-        // MONTAGEM DO RELATÓRIO FINAL EM TABELA COMPACTA E UNIFICADA
+        // TELA DE RELATÓRIO AGRUPADO
         function showReportScreen() {
             document.getElementById("gameScreen").classList.remove("active");
             document.getElementById("reportScreen").classList.add("active");
@@ -1583,124 +1388,158 @@
             const today = new Date().toLocaleDateString('pt-BR');
             document.getElementById("pdfDate").innerText = today;
 
-            const tbody = document.getElementById("reportTableBody");
-            tbody.innerHTML = "";
+            // Popular Select de Filtros
+            const select = document.getElementById("reportPlayerSelect");
+            select.innerHTML = `<option value="ALL">👥 Toda a Turma (Relatório Geral Paginado)</option>`;
+            activePlayers.forEach(p => {
+                select.innerHTML += `<option value="${p.id}">👤 Ficha Individual: ${p.name}</option>`;
+            });
+
+            renderReportView();
+        }
+
+        function renderReportView() {
+            const selectedFilter = document.getElementById("reportPlayerSelect").value;
+            const container = document.getElementById("reportBlocksContainer");
+            const subTitle = document.getElementById("pdfReportSubTitle");
+            container.innerHTML = "";
+
+            let targetPlayers = activePlayers;
+            if (selectedFilter !== "ALL") {
+                targetPlayers = activePlayers.filter(p => p.id == selectedFilter);
+                subTitle.innerText = `Ficha Individual de Desempenho & Expressão Não-Verbal`;
+            } else {
+                subTitle.innerText = `Relatório Geral da Turma - Agrupado por Aluno`;
+            }
 
             if (gameAnswersLog.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:20px; color:#8395a7;">Nenhuma resposta precisou ser registrada durante esta partida.</td></tr>`;
+                container.innerHTML = `<p style="text-align:center; padding:20px; color:#8395a7;">Nenhuma resposta registrada nesta partida.</p>`;
                 return;
             }
 
-            gameAnswersLog.forEach(log => {
-                const tr = document.createElement("tr");
-                const badgeColor = colorMap[log.playerColor] || "#2f3542";
-                
-                // Gera o SVG inline nativo diretamente no elemento container
-                const avatarSVG = generateFaceSVG(log.playerAvatarConfig);
+            targetPlayers.forEach((player, idx) => {
+                const playerLogs = gameAnswersLog.filter(log => log.playerId === player.id);
+                const isLast = idx === targetPlayers.length - 1;
+                // Aplica quebra de página no PDF APENAS se houver mais alunos depois (evita página em branco no final)
+                const pageBreakClass = (selectedFilter === "ALL" && !isLast) ? "page-break-student" : "";
 
-                tr.innerHTML = `
-                    <td>
-                        <div class="report-player-cell">
-                            <div class="report-avatar-mini">
-                                ${avatarSVG}
-                            </div>
-                            <span style="color:${badgeColor};">${log.player}</span>
+                const block = document.createElement("div");
+                block.className = `player-report-block ${pageBreakClass}`;
+
+                const badgeColor = colorMap[player.color] || "#2f3542";
+                const avatarSVG = generateFaceSVG(player.avatarConfig);
+
+                let rowsHTML = "";
+                if (playerLogs.length === 0) {
+                    rowsHTML = `<tr><td colspan="3" style="text-align:center; color:#8395a7;">Este aluno não parou em casas com perguntas.</td></tr>`;
+                } else {
+                    playerLogs.forEach(log => {
+                        rowsHTML += `
+                            <tr>
+                                <td style="font-weight:700; color:#747d8c; width:15%;">Casa #${log.tileNum}</td>
+                                <td style="font-weight:700; color:#2f3542; width:42%;">❓ ${log.question}</td>
+                                <td style="width:43%;">
+                                    <div style="font-size:0.75rem; color:#0fb9b1; font-weight:800; text-transform:uppercase;">${log.type}</div>
+                                    👉 ${log.answer}
+                                </td>
+                            </tr>
+                        `;
+                    });
+                }
+
+                block.innerHTML = `
+                    <div class="player-report-header">
+                        <div class="player-report-avatar report-avatar-mini">${avatarSVG}</div>
+                        <div class="player-report-title">
+                            <h3 style="color:${badgeColor};">${player.name}</h3>
+                            <p>Respostas Registradas: ${playerLogs.length} situação(ões)</p>
                         </div>
-                    </td>
-                    <td style="font-weight:700; color:#747d8c;">Casa #${log.tileNum}</td>
-                    <td style="font-weight:700; color:#2f3542;">❓ ${log.question}</td>
-                    <td>
-                        <div style="font-size:0.75rem; color:#0fb9b1; font-weight:800; text-transform:uppercase;">${log.type}</div>
-                        👉 ${log.answer}
-                    </td>
+                    </div>
+                    <table class="report-table">
+                        <thead>
+                            <tr>
+                                <th>Casa #</th>
+                                <th>Questão / Situação</th>
+                                <th>Resposta / Expressão Não-Verbal</th>
+                            </tr>
+                        </thead>
+                        <tbody>${rowsHTML}</tbody>
+                    </table>
                 `;
-                tbody.appendChild(tr);
-            });
-        }
 
-        // Função auxiliar para converter SVG para DataURL PNG usando Canvas
-        function svgToPngDataUrl(svgString, width = 100, height = 100) {
-            return new Promise((resolve) => {
-                const img = new Image();
-                const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-                const url = URL.createObjectURL(svgBlob);
-                
-                img.onload = () => {
-                    const canvas = document.createElement('canvas');
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('canvas-2d') || canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-                    URL.revokeObjectURL(url);
-                    resolve(canvas.toDataURL('image/png'));
-                };
-                
-                img.onerror = () => {
-                    URL.revokeObjectURL(url);
-                    resolve('');
-                };
-
-                img.src = url;
+                container.appendChild(block);
             });
         }
 
         async function exportConsolidatedPDF() {
-            const btn = document.querySelector('.export-pdf-btn');
-            const originalBtnText = btn.innerText;
-            btn.disabled = true;
-            btn.innerText = "⏳ GERANDO PDF...";
+            const element = document.getElementById("pdfArea");
+            const selectedFilter = document.getElementById("reportPlayerSelect").value;
+            const playerName = selectedFilter === "ALL" ? "Turma_Completa" : activePlayers.find(p=>p.id==selectedFilter)?.name || "Aluno";
 
-            try {
-                // Prepara as imagens PNG substituindo os SVGs temporariamente para a renderização do PDF
-                const miniContainers = document.querySelectorAll('.report-avatar-mini');
-                const originalHTMLs = [];
+            // 1. Converte dinamicamente os SVGs para PNG para renderização no html2canvas
+            const avatarContainers = element.querySelectorAll(".report-avatar-mini");
+            const originalContents = [];
 
-                for (let i = 0; i < miniContainers.length; i++) {
-                    const container = miniContainers[i];
-                    originalHTMLs.push(container.innerHTML);
-                    
-                    const svgEl = container.querySelector('svg');
-                    if (svgEl) {
-                        const svgString = new XMLSerializer().serializeToString(svgEl);
-                        const pngUrl = await svgToPngDataUrl(svgString, 120, 120);
-                        if (pngUrl) {
-                            container.innerHTML = `<img src="${pngUrl}" style="width:100%; height:100%; object-fit:contain; display:block;" alt="Avatar">`;
-                        }
+            for (let i = 0; i < avatarContainers.length; i++) {
+                const container = avatarContainers[i];
+                originalContents.push(container.innerHTML);
+                const svgElement = container.querySelector("svg");
+                if (svgElement) {
+                    try {
+                        const pngUrl = await svgToPngUrl(svgElement, 100, 100);
+                        container.innerHTML = `<img src="${pngUrl}" style="width:100%; height:100%; object-fit:cover; display:block;" alt="Avatar">`;
+                    } catch (e) {
+                        console.warn("Erro ao converter SVG:", e);
                     }
                 }
-
-                const element = document.getElementById("pdfArea");
-                
-                const opt = {
-                    margin:       [8, 8, 8, 8],
-                    filename:     `Relatorio_Geral_Trilha_das_Emocoes.pdf`,
-                    image:        { type: 'jpeg', quality: 0.98 },
-                    html2canvas:  { 
-                        scale: 2, 
-                        useCORS: true, 
-                        allowTaint: true, 
-                        logging: false
-                    },
-                    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                    pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
-                };
-
-                await html2pdf().set(opt).from(element).save();
-
-                // Restaura o HTML dos SVGs originais na tela após o download
-                miniContainers.forEach((container, idx) => {
-                    container.innerHTML = originalHTMLs[idx];
-                });
-            } catch (err) {
-                console.error("Erro ao gerar PDF:", err);
-                alert("Ocorreu um erro ao exportar o PDF. Tente novamente.");
-            } finally {
-                btn.disabled = false;
-                btn.innerText = originalBtnText;
             }
+
+            const opt = {
+                margin:       [10, 10, 10, 10],
+                filename:     `Relatorio_${playerName}_Trilha_das_Emocoes.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, allowTaint: true, scrollY: 0 },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak:    { mode: ['css', 'legacy'] }
+            };
+
+            await html2pdf().set(opt).from(element).save();
+
+            // 2. Restaura o HTML original com SVG nativo na tela
+            avatarContainers.forEach((container, i) => {
+                container.innerHTML = originalContents[i];
+            });
         }
 
-        // Inicialização
+        function svgToPngUrl(svgElement, width, height) {
+            return new Promise((resolve, reject) => {
+                try {
+                    const svgString = new XMLSerializer().serializeToString(svgElement);
+                    const svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
+                    const URL = window.URL || window.webkitURL || window;
+                    const blobURL = URL.createObjectURL(svgBlob);
+
+                    const image = new Image();
+                    image.onload = () => {
+                        const canvas = document.createElement("canvas");
+                        canvas.width = width * 2;
+                        canvas.height = height * 2;
+                        const context = canvas.getContext("2d");
+                        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+                        URL.revokeObjectURL(blobURL);
+                        resolve(canvas.toDataURL("image/png"));
+                    };
+                    image.onerror = (err) => {
+                        URL.revokeObjectURL(blobURL);
+                        reject(err);
+                    };
+                    image.src = blobURL;
+                } catch (err) {
+                    reject(err);
+                }
+            });
+        }
+
         renderSetupRows();
         drawDice(1);
     </script>
