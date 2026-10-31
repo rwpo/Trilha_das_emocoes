@@ -72,48 +72,48 @@
             align-items: center;
         }
 
-        /* TELA DE SELEÇÃO DE JOGADORES */
+        /* TELA DE SELEÇÃO DE JOGADORES E MODOS */
         .setup-card {
             background: white;
             border-radius: 25px;
             padding: 30px;
             box-shadow: var(--card-shadow);
-            max-width: 750px;
+            max-width: 800px;
             width: 100%;
             text-align: center;
         }
 
-        .setup-card h2 {
+        .setup-section-title {
             color: #2f3542;
-            font-size: 1.8rem;
-            margin-bottom: 15px;
+            font-size: 1.3rem;
+            margin: 15px 0 10px 0;
         }
 
-        .player-count-selector {
+        .player-count-selector, .board-style-selector {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 25px;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
-        .count-btn {
+        .count-btn, .style-btn {
             background: #f1f2f6;
             border: 3px solid #dfe4ea;
-            width: 50px;
-            height: 50px;
+            padding: 10px 18px;
             border-radius: 15px;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: 700;
             font-family: 'Fredoka', sans-serif;
             cursor: pointer;
             transition: all 0.2s;
         }
 
-        .count-btn.selected {
+        .count-btn.selected, .style-btn.selected {
             background: #ff4757;
             color: white;
             border-color: #ff4757;
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
 
         .players-config-list {
@@ -305,7 +305,7 @@
             overflow: hidden;
         }
 
-        /* TABULEIRO 2D */
+        /* TABULEIROS 2D COM MÚLTIPLOS ESTILOS */
         .board-container {
             background: white;
             padding: 20px;
@@ -316,7 +316,31 @@
             overflow-x: auto;
         }
 
-        .board-grid {
+        /* ESTILO 1: SINUOSO (5 COLUNAS EM ZIGUE-ZAGUE) */
+        .board-grid.style-sinuoso {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            min-width: 600px;
+        }
+
+        /* ESTILO 2: RETO / HORIZONTAL */
+        .board-grid.style-reto {
+            display: flex;
+            flex-direction: row;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            min-width: 100%;
+        }
+
+        .board-grid.style-reto .tile {
+            min-width: 110px;
+            flex-shrink: 0;
+        }
+
+        /* ESTILO 3: ESPIRAL (GRID DE 5 COLUNAS COM CAMINHO ESPIRALIZADO) */
+        .board-grid.style-espiral {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 12px;
@@ -591,64 +615,33 @@
             width: 100%;
         }
 
-        /* TELA DE FINAL/RELATÓRIO PDF INDIVIDUAL */
+        /* TELA DE RELATÓRIO FORMATADO EM TABELA ORGANIZADA */
         .report-card {
             background: white;
             border-radius: 25px;
-            padding: 30px;
+            padding: 25px;
             box-shadow: var(--card-shadow);
-            max-width: 850px;
+            max-width: 900px;
             width: 100%;
             text-align: center;
         }
 
-        .player-report-selector {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 15px 0 25px 0;
-            flex-wrap: wrap;
-        }
-
-        .player-tab-btn {
-            background: #f1f2f6;
-            border: 2px solid #dfe4ea;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-family: 'Fredoka', sans-serif;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .player-tab-btn.active {
-            background: #2f3542;
-            color: white;
-            border-color: #2f3542;
-            transform: scale(1.05);
-        }
-
-        /* DOCUMENTO OTIMIZADO COMPACTO PARA PDF SEM QUEBRAS DESNECESSÁRIAS */
         .pdf-document {
             background: #ffffff !important;
-            padding: 16px 20px;
-            border-radius: 8px;
+            padding: 20px;
+            border-radius: 12px;
             text-align: left;
             font-family: 'Nunito', sans-serif;
             color: #2d3436;
-            line-height: 1.3;
             width: 100%;
             box-sizing: border-box;
             border: 1px solid #dfe4ea;
         }
 
         .pdf-header-banner {
-            border-bottom: 2px solid #ff4757;
-            padding-bottom: 8px;
-            margin-bottom: 10px;
+            border-bottom: 3px solid #ff4757;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
             width: 100%;
         }
 
@@ -660,123 +653,64 @@
         .pdf-header-title h2 {
             font-family: 'Fredoka', sans-serif;
             color: #ff4757;
-            font-size: 1.5rem;
-            margin-bottom: 0px;
-            line-height: 1.2;
+            font-size: 1.6rem;
+            margin-bottom: 2px;
         }
 
         .pdf-header-title p {
             color: #636e72;
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             font-weight: 600;
         }
 
-        .pdf-meta-box {
-            background: #f8f9fa;
-            border: 1px solid #dfe4ea;
-            border-left: 4px solid #4a90e2;
-            border-radius: 6px;
-            padding: 8px 14px;
-            margin-bottom: 12px;
-            font-size: 0.9rem;
-            width: 100%;
-        }
-
-        .pdf-meta-box table {
+        /* TABELA ESTRUTURADA DE RELATÓRIO PEDAGÓGICO */
+        .report-table {
             width: 100%;
             border-collapse: collapse;
-        }
-
-        .pdf-section-title {
-            font-family: 'Fredoka', sans-serif;
-            font-size: 1.05rem;
-            color: #2f3542;
-            margin-bottom: 8px;
-            padding-bottom: 4px;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .pdf-qa-container {
-            width: 100%;
-            display: block;
-        }
-
-        .pdf-qa-row {
-            background: #ffffff;
-            border: 1px solid #e9ecef;
-            border-bottom: 2px solid #dfe4ea;
-            border-radius: 6px;
-            padding: 8px 12px;
-            margin-bottom: 6px;
-            page-break-inside: avoid !important;
-            break-inside: avoid !important;
-            display: block;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .pdf-qa-row:nth-child(even) {
-            background-color: #fafbfc;
-        }
-
-        .pdf-qa-header-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 4px;
-        }
-
-        .pdf-player-badge {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 8px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            color: #ffffff !important;
-            font-family: 'Fredoka', sans-serif;
-        }
-
-        .pdf-tile-info {
-            font-size: 0.78rem;
-            color: #747d8c;
-            font-weight: 700;
-            text-align: right;
-        }
-
-        .pdf-question-text {
-            font-weight: 800;
-            color: #2f3542;
-            font-size: 0.92rem;
-            margin: 4px 0;
-            display: block;
-        }
-
-        .pdf-answer-box {
-            background: #f1f9f5;
-            border: 1px solid #b7ebc9;
-            border-left: 4px solid #2ed573;
-            border-radius: 5px;
-            padding: 6px 10px;
+            margin-top: 12px;
             font-size: 0.88rem;
-            color: #2d3436;
-            margin-top: 4px;
-            display: block;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
         }
 
-        .pdf-answer-type {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-            color: #0fb9b1;
-            font-weight: 800;
-            display: block;
-            margin-bottom: 2px;
+        .report-table th {
+            background-color: #2f3542;
+            color: white;
+            font-family: 'Fredoka', sans-serif;
+            padding: 8px 10px;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid #2f3542;
+        }
+
+        .report-table td {
+            padding: 8px 10px;
+            border: 1px solid #dfe4ea;
+            vertical-align: middle;
+        }
+
+        .report-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .report-player-cell {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+        }
+
+        .report-avatar-mini {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #ced4da;
+            overflow: hidden;
+            background: white;
+            flex-shrink: 0;
         }
 
         .pdf-footer {
-            margin-top: 12px;
-            padding-top: 8px;
+            margin-top: 15px;
+            padding-top: 10px;
             border-top: 1px solid #dfe4ea;
             text-align: center;
             font-size: 0.75rem;
@@ -802,22 +736,6 @@
             transform: translateY(-2px);
         }
 
-        .export-all-pdf-btn {
-            background: #2ed573;
-            color: white;
-            border: none;
-            padding: 14px 30px;
-            border-radius: 30px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            font-family: 'Fredoka', sans-serif;
-            cursor: pointer;
-            box-shadow: 0 5px 0 #20bf6b;
-            margin-top: 15px;
-            margin-left: 10px;
-            transition: transform 0.2s;
-        }
-
         .tile-red { background: #ff4757; }
         .tile-orange { background: #ffa502; }
         .tile-yellow { background: #eccc68; color: #2f3542; }
@@ -835,7 +753,7 @@
         <p>Um jogo interativo sobre sentimentos, empatia e expressão não-verbal</p>
     </header>
 
-    <!-- TELA 1: SELEÇÃO E PERSONALIZAÇÃO DOS JOGADORES -->
+    <!-- TELA 1: SELEÇÃO, PERSONALIZAÇÃO E TIPO DE TABULEIRO -->
     <div id="setupScreen" class="screen active">
         <div class="setup-card">
             <h2>Escolha a quantidade de jogadores:</h2>
@@ -844,6 +762,13 @@
                 <button class="count-btn selected" onclick="setPlayerCount(2)">2</button>
                 <button class="count-btn" onclick="setPlayerCount(3)">3</button>
                 <button class="count-btn" onclick="setPlayerCount(4)">4</button>
+            </div>
+
+            <h3 class="setup-section-title">🎨 Escolha o Estilo do Tabuleiro:</h3>
+            <div class="board-style-selector">
+                <button class="style-btn selected" onclick="setBoardStyle('sinuoso')">🔄 Sinuoso (Zigue-Zague)</button>
+                <button class="style-btn" onclick="setBoardStyle('reto')">➡️ Caminho Reto (Trilha)</button>
+                <button class="style-btn" onclick="setBoardStyle('espiral')">🌀 Espiral Concêntrica</button>
             </div>
 
             <div class="players-config-list" id="playersConfigList"></div>
@@ -879,18 +804,16 @@
             </div>
 
             <div class="board-container">
-                <div class="board-grid" id="boardGrid"></div>
+                <div class="board-grid style-sinuoso" id="boardGrid"></div>
             </div>
         </div>
     </div>
 
-    <!-- TELA 3: RELATÓRIO FINAL INDIVIDUAL POR JOGADOR -->
+    <!-- TELA 3: RELATÓRIO FINAL EM TABELA COMPACTA -->
     <div id="reportScreen" class="screen">
         <div class="report-card">
-            <h2 style="color:#2f3542; margin-bottom:5px;">🏆 Fim de Jogo! Todos os Jogadores Chegaram!</h2>
-            <p style="color:#576574; margin-bottom:15px;">Selecione o jogador abaixo para visualizar ou exportar o seu relatório individual de acompanhamento:</p>
-
-            <div class="player-report-selector" id="playerReportSelector"></div>
+            <h2 style="color:#2f3542; margin-bottom:5px;">🏆 Fim de Jogo! Relatório Geral da Partida</h2>
+            <p style="color:#576574; margin-bottom:15px;">Resumo consolidado em tabela com o desempenho e respostas de todos os jogadores:</p>
 
             <div id="pdfArea" class="pdf-document">
                 <div class="pdf-header-banner">
@@ -898,44 +821,38 @@
                         <tr>
                             <td class="pdf-header-title">
                                 <h2>TRILHA DAS EMOÇÕES</h2>
-                                <p>Relatório Individual de Respostas & Expressão Não-Verbal</p>
+                                <p>Relatório Consolidado de Respostas & Expressão Não-Verbal</p>
                             </td>
                             <td style="text-align:right; font-size:0.8rem; color:#747d8c;">
                                 Data: <strong id="pdfDate">--/--/----</strong><br>
-                                Recurso Inclusivo / Atendimento AEE
+                                Recurso Inclusivo / AEE
                             </td>
                         </tr>
                     </table>
                 </div>
 
-                <div class="pdf-meta-box">
-                    <table>
+                <table class="report-table">
+                    <thead>
                         <tr>
-                            <td style="display:flex; align-items:center; gap:10px;">
-                                <div id="pdfPlayerAvatarBox" style="width:42px; height:42px; border-radius:50%; overflow:hidden; background:#fff; border:2px solid #ced4da; flex-shrink:0;"></div>
-                                <div>
-                                    <strong style="font-size:1rem; color:#2f3542;">Aluno(a) / Jogador(a):</strong> <span id="pdfPlayerName" style="font-weight:800; color:#ff4757; font-size:1.05rem;">--</span>
-                                </div>
-                            </td>
-                            <td style="text-align:right;"><strong>Total de Interações:</strong> <span id="pdfTotalAnswers">0</span></td>
+                            <th style="width: 22%;">Aluno / Avatar</th>
+                            <th style="width: 12%;">Casa #</th>
+                            <th style="width: 33%;">Questão / Situação</th>
+                            <th style="width: 33%;">Resposta / Expressão</th>
                         </tr>
-                    </table>
-                </div>
-
-                <div class="pdf-section-title">📋 Registro de Respostas & Expressões</div>
-
-                <div class="pdf-qa-container" id="reportList"></div>
+                    </thead>
+                    <tbody id="reportTableBody">
+                    </tbody>
+                </table>
 
                 <div class="pdf-footer">
-                    Documento gerado pelo jogo digital "Trilha das Emoções" - Registro sintético para acompanhamento pedagógico e familiar.
+                    Documento gerado pelo jogo digital "Trilha das Emoções" - Registro sintético em tabela para acompanhamento pedagógico e familiar.
                 </div>
             </div>
 
-            <div>
-                <button class="export-pdf-btn" onclick="exportCurrentPlayerPDF()">📄 EXPORTAR PDF DESTE JOGADOR</button>
-                <button class="export-all-pdf-btn" onclick="exportAllPlayersPDF()">📚 EXPORTAR TODOS OS RELATÓRIOS (PDFs)</button>
+            <div style="display:flex; justify-content:center; gap:15px; flex-wrap:wrap; margin-top:10px;">
+                <button class="export-pdf-btn" onclick="exportConsolidatedPDF()">📄 EXPORTAR RELATÓRIO EM PDF</button>
+                <button class="start-game-btn" onclick="location.reload()" style="max-width:260px; margin-top:15px; background:#ff4757; box-shadow: 0 5px 0 #d63031;">JOGAR NOVAMENTE 🔄</button>
             </div>
-            <button class="start-game-btn" onclick="location.reload()" style="margin-top:15px; background:#ff4757; box-shadow: 0 5px 0 #d63031;">JOGAR NOVAMENTE 🔄</button>
         </div>
     </div>
 
@@ -984,6 +901,7 @@
             grisalho: "#bdc3c7"
         };
 
+        // GERADOR SVG DIRETO E LIMPO (VERSÃO QUE FUNCIONA PERFEITAMENTE VIA INNERHTML)
         function generateFaceSVG(config) {
             const gender = config.gender || "menino";
             const skin = skinColors[config.skin] || skinColors.claro;
@@ -1281,19 +1199,26 @@
         ];
 
         let activePlayerCount = 2;
+        let selectedBoardStyle = "sinuoso";
         let activePlayers = [];
         let playerAvatarConfigs = [];
         let currentPlayerIndex = 0;
         let selectedOption = null;
         let gameAnswersLog = [];
-        let selectedReportPlayerIdx = 0;
 
         function setPlayerCount(count) {
             activePlayerCount = count;
-            document.querySelectorAll(".count-btn").forEach((btn, idx) => {
+            document.querySelectorAll(".player-count-selector .count-btn").forEach((btn, idx) => {
                 btn.classList.toggle("selected", idx + 1 === count);
             });
             renderSetupRows();
+        }
+
+        function setBoardStyle(style) {
+            selectedBoardStyle = style;
+            document.querySelectorAll(".board-style-selector .style-btn").forEach(btn => {
+                btn.classList.toggle("selected", btn.getAttribute("onclick").includes(style));
+            });
         }
 
         function renderSetupRows() {
@@ -1448,6 +1373,7 @@
 
         function renderBoard() {
             const grid = document.getElementById("boardGrid");
+            grid.className = `board-grid style-${selectedBoardStyle}`;
             grid.innerHTML = "";
 
             boardData.forEach((tile, index) => {
@@ -1643,6 +1569,7 @@
             gameAnswersLog.push({
                 player: player.name,
                 playerColor: player.color,
+                playerAvatarConfig: { ...player.avatarConfig },
                 tileNum: player.pos,
                 question: tileTitle,
                 answer: ansText,
@@ -1668,108 +1595,56 @@
             updateTurnCard();
         }
 
+        // MONTAGEM DO RELATÓRIO FINAL EM TABELA COMPACTA E UNIFICADA
         function showReportScreen() {
             document.getElementById("gameScreen").classList.remove("active");
             document.getElementById("reportScreen").classList.add("active");
 
-            const selector = document.getElementById("playerReportSelector");
-            selector.innerHTML = "";
-
-            activePlayers.forEach((p, idx) => {
-                const btn = document.createElement("button");
-                btn.className = `player-tab-btn ${idx === 0 ? 'active' : ''}`;
-                btn.onclick = () => selectReportPlayer(idx);
-
-                const badgeBg = colorMap[p.color] || "#2f3542";
-                btn.innerHTML = `<span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:${badgeBg};"></span> ${p.name}`;
-                selector.appendChild(btn);
-            });
-
-            selectReportPlayer(0);
-        }
-
-        function selectReportPlayer(pIdx) {
-            selectedReportPlayerIdx = pIdx;
-
-            document.querySelectorAll(".player-tab-btn").forEach((btn, idx) => {
-                btn.classList.toggle("active", idx === pIdx);
-            });
-
-            const player = activePlayers[pIdx];
-            if (!player) return;
-
             const today = new Date().toLocaleDateString('pt-BR');
-
             document.getElementById("pdfDate").innerText = today;
-            document.getElementById("pdfPlayerName").innerText = player.name;
-            document.getElementById("pdfPlayerTitleName").innerText = player.name;
-            
-            // Renderização SÍNCRONA e CONFIÁVEL do SVG diretamente em Data URI
-            const svgString = generateFaceSVG(player.avatarConfig);
-            const encodedSvg = encodeURIComponent(svgString);
-            const dataUrl = `data:image/svg+xml;charset=utf-8,${encodedSvg}`;
-            
-            document.getElementById("pdfPlayerAvatarBox").innerHTML = `<img src="${dataUrl}" style="width:100%; height:100%; object-fit:cover; display:block;" alt="Avatar">`;
 
-            // Filtragem flexível de logs pelo nome do jogador
-            const playerLogs = gameAnswersLog.filter(log => log.player.trim().toLowerCase() === player.name.trim().toLowerCase());
-            document.getElementById("pdfTotalAnswers").innerText = playerLogs.length;
+            const tbody = document.getElementById("reportTableBody");
+            tbody.innerHTML = "";
 
-            const container = document.getElementById("reportList");
-            container.innerHTML = "";
-
-            if (playerLogs.length === 0) {
-                container.innerHTML = `<div style='padding:15px; color:#8395a7; text-align:center; background:#f8f9fa; border-radius:8px; border:1px solid #dfe4ea;'>Nenhuma resposta registrada para ${player.name} durante esta partida.</div>`;
+            if (gameAnswersLog.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:20px; color:#8395a7;">Nenhuma resposta precisou ser registrada durante esta partida.</td></tr>`;
                 return;
             }
 
-            playerLogs.forEach((log) => {
-                const row = document.createElement("div");
-                row.className = "pdf-qa-row";
+            gameAnswersLog.forEach(log => {
+                const tr = document.createElement("tr");
+                const badgeColor = colorMap[log.playerColor] || "#2f3542";
 
-                const badgeBg = colorMap[log.playerColor] || "#2f3542";
-
-                row.innerHTML = `
-                    <table class="pdf-qa-header-table">
-                        <tr>
-                            <td><span class="pdf-player-badge" style="background:${badgeBg};">${log.player}</span></td>
-                            <td class="pdf-tile-info">Casa #${log.tileNum}</td>
-                        </tr>
-                    </table>
-                    <div class="pdf-question-text">❓ ${log.question}</div>
-                    <div class="pdf-answer-box">
-                        <span class="pdf-answer-type">${log.type}</span>
+                tr.innerHTML = `
+                    <td>
+                        <div class="report-player-cell">
+                            <div class="report-avatar-mini">${generateFaceSVG(log.playerAvatarConfig)}</div>
+                            <span style="color:${badgeColor};">${log.player}</span>
+                        </div>
+                    </td>
+                    <td style="font-weight:700; color:#747d8c;">Casa #${log.tileNum}</td>
+                    <td style="font-weight:700; color:#2f3542;">❓ ${log.question}</td>
+                    <td>
+                        <div style="font-size:0.75rem; color:#0fb9b1; font-weight:800; text-transform:uppercase;">${log.type}</div>
                         👉 ${log.answer}
-                    </div>
+                    </td>
                 `;
-                container.appendChild(row);
+                tbody.appendChild(tr);
             });
         }
 
-        function exportCurrentPlayerPDF() {
-            const player = activePlayers[selectedReportPlayerIdx];
+        function exportConsolidatedPDF() {
             const element = document.getElementById("pdfArea");
-
-            const safeName = player.name.replace(/[^a-zA-Z0-9_-]/g, '_');
             const opt = {
-                margin:       [8, 8, 8, 8],
-                filename:     `Relatorio_Emocional_${safeName}.pdf`,
+                margin:       [10, 10, 10, 10],
+                filename:     `Relatorio_Geral_Trilha_das_Emocoes.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, logging: false, scrollX: 0, scrollY: 0 },
+                html2canvas:  { scale: 2, useCORS: true, logging: false },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
                 pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
             };
 
             html2pdf().set(opt).from(element).save();
-        }
-
-        async function exportAllPlayersPDF() {
-            for (let i = 0; i < activePlayers.length; i++) {
-                selectReportPlayer(i);
-                await new Promise(resolve => setTimeout(resolve, 300));
-                exportCurrentPlayerPDF();
-                await new Promise(resolve => setTimeout(resolve, 1000));
-            }
         }
 
         // Inicialização
