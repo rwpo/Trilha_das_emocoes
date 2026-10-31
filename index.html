@@ -78,7 +78,7 @@
             border-radius: 25px;
             padding: 30px;
             box-shadow: var(--card-shadow);
-            max-width: 600px;
+            max-width: 750px;
             width: 100%;
             text-align: center;
         }
@@ -119,21 +119,29 @@
         .players-config-list {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
             margin-bottom: 25px;
         }
 
         .player-config-row {
             display: flex;
-            align-items: center;
-            gap: 15px;
+            flex-direction: column;
+            gap: 12px;
             background: #f8f9fa;
-            padding: 12px 18px;
-            border-radius: 16px;
+            padding: 16px 20px;
+            border-radius: 20px;
             border: 2px solid #e9ecef;
+            text-align: left;
         }
 
-        .player-config-row input {
+        .player-config-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .player-config-header input {
             flex: 1;
             padding: 8px 12px;
             border: 2px solid #ced4da;
@@ -167,6 +175,67 @@
         .c-yellow { background: #ffa502; }
         .c-red { background: #ff4757; }
         .c-black { background: #2f3542; }
+
+        /* AVATAR CUSTOMIZER GRID */
+        .avatar-customizer {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #ffffff;
+            padding: 14px 15px;
+            border-radius: 15px;
+            border: 1px dashed #ced4da;
+        }
+
+        .avatar-preview-box {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            background: #f1f2f6;
+            border: 3px solid #dfe4ea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+
+        .avatar-preview-box svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .avatar-controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+            gap: 8px;
+            flex: 1;
+        }
+
+        .avatar-control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .avatar-control-group label {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: #747d8c;
+            text-transform: uppercase;
+        }
+
+        .avatar-control-group select {
+            padding: 6px 8px;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.85rem;
+            background: white;
+            outline: none;
+            cursor: pointer;
+        }
 
         .start-game-btn {
             background: #2ed573;
@@ -223,6 +292,17 @@
             text-align: center;
             border: 3px solid #dfe4ea;
             transition: all 0.3s ease;
+        }
+
+        .turn-avatar-container {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            margin: 8px auto;
+            border: 3px solid white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            background: white;
+            overflow: hidden;
         }
 
         /* TABULEIRO 2D */
@@ -282,7 +362,7 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
 
-        /* PEÕES */
+        /* PEÕES COM AVATAR DO ROSTO */
         .pawns-container {
             position: absolute;
             bottom: 5px;
@@ -295,25 +375,16 @@
             z-index: 10;
         }
 
-        .pawn {
-            width: 22px;
-            height: 22px;
+        .pawn-avatar {
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             border: 2px solid white;
             box-shadow: 0 2px 5px rgba(0,0,0,0.4);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
-        }
-
-        .pawn::after {
-            content: '';
-            position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 6px;
-            height: 6px;
-            background: rgba(255,255,255,0.6);
-            border-radius: 50%;
+            background: white;
+            overflow: hidden;
         }
 
         /* DADO */
@@ -624,7 +695,6 @@
             border-bottom: 2px solid #e9ecef;
         }
 
-        /* TABELA DE REGISTROS DE RESPOSTAS - INDIVIDUAL */
         .pdf-qa-container {
             width: 100%;
             display: block;
@@ -764,7 +834,7 @@
         <p>Um jogo interativo sobre sentimentos, empatia e expressão não-verbal</p>
     </header>
 
-    <!-- TELA 1: SELEÇÃO DE JOGADORES -->
+    <!-- TELA 1: SELEÇÃO E PERSONALIZAÇÃO DOS JOGADORES -->
     <div id="setupScreen" class="screen active">
         <div class="setup-card">
             <h2>Escolha a quantidade de jogadores:</h2>
@@ -787,7 +857,7 @@
             <div class="controls-panel">
                 <div id="playerCard" class="player-turn-card">
                     <h3 id="currentPlayerName">Vez do Jogador</h3>
-                    <div id="playerPawnPreview" class="pawn c-blue" style="margin: 10px auto; width: 32px; height: 32px;"></div>
+                    <div id="playerAvatarPreview" class="turn-avatar-container"></div>
                     <p id="playerStatusText">Role o dado para avançar!</p>
                 </div>
 
@@ -840,7 +910,12 @@
                 <div class="pdf-meta-box">
                     <table>
                         <tr>
-                            <td><strong>Aluno / Jogador:</strong> <span id="pdfPlayerName">--</span></td>
+                            <td style="display:flex; align-items:center; gap:12px;">
+                                <div id="pdfPlayerAvatarBox" style="width:50px; height:50px; border-radius:50%; overflow:hidden; background:#fff; border:2px solid #ced4da; flex-shrink:0;"></div>
+                                <div>
+                                    <strong>Aluno / Jogador:</strong> <span id="pdfPlayerName">--</span>
+                                </div>
+                            </td>
                             <td style="text-align:right;"><strong>Total de Interações:</strong> <span id="pdfTotalAnswers">0</span></td>
                         </tr>
                     </table>
@@ -885,6 +960,159 @@
     </div>
 
     <script>
+        const skinColors = {
+            clarissimo: "#ffe0bd",
+            claro: "#f1c27d",
+            pardo: "#e0ac69",
+            negro: "#8d5524",
+            indigena: "#c68642"
+        };
+
+        const eyeColors = {
+            castanho: "#4b2e1e",
+            preto: "#1b1b1b",
+            azul: "#2980b9",
+            verde: "#27ae60"
+        };
+
+        const hairColors = {
+            preto: "#1a1a1a",
+            castanho: "#4a2c11",
+            loiro: "#f39c12",
+            ruivo: "#d35400",
+            grisalho: "#bdc3c7"
+        };
+
+        function generateFaceSVG(config) {
+            const gender = config.gender || "menino";
+            const skin = skinColors[config.skin] || skinColors.claro;
+            const eye = eyeColors[config.eye] || eyeColors.castanho;
+            const hairC = hairColors[config.hairColor] || hairColors.preto;
+            const hairT = config.hairType || (gender === "menina" ? "longo" : "curto");
+            const acc = config.accessory || "nenhum";
+            const hearingDev = config.hearingDevice || "nenhum";
+
+            let backHairSVG = "";
+            if (hairT === "longo") {
+                backHairSVG = `<path d="M 12 35 C 10 75, 20 88, 30 92 L 70 92 C 80 88, 90 75, 88 35 Z" fill="${hairC}"/>`;
+            } else if (hairT === "cacheado") {
+                backHairSVG = `<circle cx="23" cy="48" r="18" fill="${hairC}"/><circle cx="77" cy="48" r="18" fill="${hairC}"/><circle cx="18" cy="63" r="15" fill="${hairC}"/><circle cx="82" cy="63" r="15" fill="${hairC}"/>`;
+            } else if (hairT === "afro") {
+                backHairSVG = `<circle cx="50" cy="40" r="35" fill="${hairC}"/>`;
+            } else if (hairT === "maria_chiquinha") {
+                backHairSVG = `
+                    <circle cx="12" cy="32" r="16" fill="${hairC}"/>
+                    <circle cx="88" cy="32" r="16" fill="${hairC}"/>
+                    <path d="M 10 30 C 5 50, 15 65, 12 75" stroke="${hairC}" stroke-width="8" fill="none" stroke-linecap="round"/>
+                    <path d="M 90 30 C 95 50, 85 65, 88 75" stroke="${hairC}" stroke-width="8" fill="none" stroke-linecap="round"/>
+                `;
+            }
+
+            let frontHairSVG = "";
+            if (hairT === "curto") {
+                frontHairSVG = `<path d="M 22 36 C 25 15, 75 15, 78 36 C 70 24, 30 24, 22 36 Z" fill="${hairC}"/>`;
+            } else if (hairT === "longo") {
+                frontHairSVG = `<path d="M 22 36 C 30 18, 70 18, 78 36 C 65 25, 55 38, 50 32 C 45 38, 35 25, 22 36 Z" fill="${hairC}"/>`;
+            } else if (hairT === "cacheado") {
+                frontHairSVG = `<circle cx="30" cy="22" r="10" fill="${hairC}"/><circle cx="50" cy="18" r="11" fill="${hairC}"/><circle cx="70" cy="22" r="10" fill="${hairC}"/>`;
+            } else if (hairT === "afro") {
+                frontHairSVG = `<circle cx="35" cy="22" r="12" fill="${hairC}"/><circle cx="65" cy="22" r="12" fill="${hairC}"/>`;
+            } else if (hairT === "maria_chiquinha") {
+                frontHairSVG = `<path d="M 22 36 C 30 20, 70 20, 78 36 C 65 26, 50 28, 22 36 Z" fill="${hairC}"/>`;
+            }
+
+            let hearingSVG = "";
+            if (hearingDev === "aparelho_aasi") {
+                hearingSVG = `
+                    <circle cx="21" cy="51" r="3" fill="#ff4757" stroke="#ffffff" stroke-width="0.8"/>
+                    <path d="M 21 48 C 18 43, 16 45, 15 48" fill="none" stroke="#dfe4ea" stroke-width="1.8"/>
+                    <path d="M 14 47 C 12 43, 14 38, 17 40 C 18 42, 17 46, 14 47 Z" fill="#ff4757" stroke="#ffffff" stroke-width="1"/>
+                    <g transform="translate(4, 76) scale(0.7)">
+                        <circle cx="12" cy="12" r="11" fill="#4a90e2" stroke="#ffffff" stroke-width="2"/>
+                        <text x="12" y="16" font-size="12" text-anchor="middle" fill="white">🧏</text>
+                    </g>
+                `;
+            } else if (hearingDev === "implante_coclear") {
+                hearingSVG = `
+                    <circle cx="14" cy="34" r="5" fill="#3742fa" stroke="#ffffff" stroke-width="1.2"/>
+                    <circle cx="14" cy="34" r="2" fill="#2ed573"/>
+                    <path d="M 14 39 Q 13 44 15 48" fill="none" stroke="#2f3542" stroke-width="1.5"/>
+                    <path d="M 14 47 C 12 43, 14 38, 17 40 C 18 42, 17 46, 14 47 Z" fill="#3742fa" stroke="#ffffff" stroke-width="1"/>
+                    <circle cx="21" cy="51" r="3" fill="#3742fa" stroke="#ffffff" stroke-width="0.8"/>
+                    <g transform="translate(4, 76) scale(0.7)">
+                        <circle cx="12" cy="12" r="11" fill="#3742fa" stroke="#ffffff" stroke-width="2"/>
+                        <text x="12" y="16" font-size="12" text-anchor="middle" fill="white">🧏</text>
+                    </g>
+                `;
+            } else if (hearingDev === "surdo_sinalizador") {
+                hearingSVG = `
+                    <g transform="translate(4, 74) scale(0.78)">
+                        <circle cx="12" cy="12" r="11" fill="#2ed573" stroke="#ffffff" stroke-width="2"/>
+                        <text x="12" y="16" font-size="12" text-anchor="middle" fill="white">🧏</text>
+                    </g>
+                `;
+            }
+
+            let accessorySVG = "";
+            if (acc === "oculos") {
+                accessorySVG = `
+                    <circle cx="36" cy="48" r="9" fill="none" stroke="#2c3e50" stroke-width="2.5"/>
+                    <circle cx="64" cy="48" r="9" fill="none" stroke="#2c3e50" stroke-width="2.5"/>
+                    <line x1="45" y1="48" x2="55" y2="48" stroke="#2c3e50" stroke-width="2.5"/>
+                    <line x1="18" y1="45" x2="27" y2="47" stroke="#2c3e50" stroke-width="2"/>
+                    <line x1="82" y1="45" x2="73" y2="47" stroke="#2c3e50" stroke-width="2"/>
+                `;
+            } else if (acc === "laco") {
+                accessorySVG = `
+                    <path d="M 68 18 C 60 12, 60 26, 68 20 C 76 26, 76 12, 68 18 Z" fill="#ff4757"/>
+                    <circle cx="68" cy="19" r="3" fill="#ffffff"/>
+                `;
+            } else if (acc === "boné") {
+                accessorySVG = `
+                    <path d="M 22 28 C 25 10, 75 10, 78 28 Z" fill="#ff4757"/>
+                    <path d="M 18 28 Q 50 32 88 24 L 84 28 Q 50 35 18 28 Z" fill="#d63031"/>
+                `;
+            } else if (acc === "brinco") {
+                accessorySVG = `
+                    <circle cx="21" cy="58" r="2.5" fill="#feca57"/>
+                    <circle cx="79" cy="58" r="2.5" fill="#feca57"/>
+                `;
+            }
+
+            let mouthSVG = `<path d="M 38 64 Q 50 74 62 64" stroke="#2c3e50" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
+            if (gender === "menina") {
+                mouthSVG = `<path d="M 38 64 Q 50 74 62 64" stroke="#e84118" stroke-width="3" fill="rgba(232, 65, 24, 0.15)" stroke-linecap="round"/>`;
+            }
+
+            return `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+                    ${backHairSVG}
+                    <circle cx="21" cy="50" r="6" fill="${skin}"/>
+                    <circle cx="79" cy="50" r="6" fill="${skin}"/>
+                    <path d="M 22 40 C 22 20, 78 20, 78 40 C 78 68, 65 82, 50 82 C 35 82, 22 68, 22 40 Z" fill="${skin}"/>
+                    <ellipse cx="36" cy="48" rx="4" ry="5.5" fill="#ffffff"/>
+                    <ellipse cx="64" cy="48" rx="4" ry="5.5" fill="#ffffff"/>
+                    <circle cx="36" cy="48" r="3" fill="${eye}"/>
+                    <circle cx="64" cy="48" r="3" fill="${eye}"/>
+                    <circle cx="37" cy="46" r="1" fill="#ffffff"/>
+                    <circle cx="65" cy="46" r="1" fill="#ffffff"/>
+                    ${gender === "menina" ? `
+                        <path d="M 31 43 L 34 44 M 36 42 L 37 44 M 40 43 L 39 44" stroke="${hairC}" stroke-width="1.2"/>
+                        <path d="M 69 43 L 66 44 M 64 42 L 63 44 M 60 43 L 61 44" stroke="${hairC}" stroke-width="1.2"/>
+                    ` : ''}
+                    <path d="M 30 39 Q 36 36 42 40" stroke="${hairC}" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    <path d="M 58 40 Q 64 36 70 39" stroke="${hairC}" stroke-width="2" fill="none" stroke-linecap="round"/>
+                    <path d="M 50 49 Q 47 56 50 57 Q 53 56 50 49" fill="rgba(0,0,0,0.1)"/>
+                    <ellipse cx="30" cy="57" rx="4.5" ry="3" fill="rgba(255,105,180,0.3)"/>
+                    <ellipse cx="70" cy="57" rx="4.5" ry="3" fill="rgba(255,105,180,0.3)"/>
+                    ${mouthSVG}
+                    ${frontHairSVG}
+                    ${hearingSVG}
+                    ${accessorySVG}
+                </svg>
+            `;
+        }
+
         const boardData = [
             { id: 0, title: "INÍCIO", icon: "➡️", color: "tile-red", options: [] },
             { id: 1, title: "ME ALEGRO QUANDO...", icon: "☀️", color: "tile-orange", options: [
@@ -1053,6 +1281,7 @@
 
         let activePlayerCount = 2;
         let activePlayers = [];
+        let playerAvatarConfigs = [];
         let currentPlayerIndex = 0;
         let selectedOption = null;
         let gameAnswersLog = [];
@@ -1072,22 +1301,115 @@
             const defaultColors = ["c-blue", "c-yellow", "c-red", "c-black"];
 
             for (let i = 0; i < activePlayerCount; i++) {
+                if (!playerAvatarConfigs[i]) {
+                    playerAvatarConfigs[i] = {
+                        gender: i === 1 ? "menina" : "menino",
+                        skin: i === 1 ? "negro" : "claro",
+                        eye: "castanho",
+                        hairType: i === 1 ? "afro" : "curto",
+                        hairColor: "preto",
+                        accessory: "nenhum",
+                        hearingDevice: "aparelho_aasi"
+                    };
+                }
+
                 const row = document.createElement("div");
                 row.className = "player-config-row";
                 const currentColor = activePlayers[i]?.color || defaultColors[i];
 
                 row.innerHTML = `
-                    <span style="font-weight:700; color:#2f3542;">#${i+1}</span>
-                    <input type="text" id="pName-${i}" value="${activePlayers[i]?.name || 'Jogador ' + (i+1)}">
-                    <div class="color-options">
-                        ${colors.map(c => `
-                            <div class="color-circle ${c.id} ${currentColor === c.id ? 'selected' : ''}" 
-                                 onclick="selectPlayerColor(${i}, '${c.id}')"></div>
-                        `).join('')}
+                    <div class="player-config-header">
+                        <span style="font-weight:700; color:#2f3542; font-size:1.1rem;">#${i+1}</span>
+                        <input type="text" id="pName-${i}" value="${activePlayers[i]?.name || 'Jogador ' + (i+1)}">
+                        <div class="color-options">
+                            ${colors.map(c => `
+                                <div class="color-circle ${c.id} ${currentColor === c.id ? 'selected' : ''}" 
+                                     onclick="selectPlayerColor(${i}, '${c.id}')"></div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="avatar-customizer">
+                        <div class="avatar-preview-box" id="avatarPreview-${i}">
+                            ${generateFaceSVG(playerAvatarConfigs[i])}
+                        </div>
+                        <div class="avatar-controls-grid">
+                            <div class="avatar-control-group">
+                                <label>Gênero</label>
+                                <select onchange="updateAvatarConfig(${i}, 'gender', this.value)">
+                                    <option value="menino" ${playerAvatarConfigs[i].gender==='menino'?'selected':''}>Menino 👦</option>
+                                    <option value="menina" ${playerAvatarConfigs[i].gender==='menina'?'selected':''}>Menina 👧</option>
+                                </select>
+                            </div>
+                            <div class="avatar-control-group">
+                                <label>Identificação / Surdez 🧏</label>
+                                <select onchange="updateAvatarConfig(${i}, 'hearingDevice', this.value)">
+                                    <option value="nenhum" ${playerAvatarConfigs[i].hearingDevice==='nenhum'?'selected':''}>Sem Aparelho</option>
+                                    <option value="aparelho_aasi" ${playerAvatarConfigs[i].hearingDevice==='aparelho_aasi'?'selected':''}>Aparelho Auditivo 🦻</option>
+                                    <option value="implante_coclear" ${playerAvatarConfigs[i].hearingDevice==='implante_coclear'?'selected':''}>Implante Coclear ⚡</option>
+                                    <option value="surdo_sinalizador" ${playerAvatarConfigs[i].hearingDevice==='surdo_sinalizador'?'selected':''}>Selo Surdo / Libras 🧏</option>
+                                </select>
+                            </div>
+                            <div class="avatar-control-group">
+                                <label>Tom de Pele / Raça</label>
+                                <select onchange="updateAvatarConfig(${i}, 'skin', this.value)">
+                                    <option value="clarissimo" ${playerAvatarConfigs[i].skin==='clarissimo'?'selected':''}>Branca (Clara)</option>
+                                    <option value="claro" ${playerAvatarConfigs[i].skin==='claro'?'selected':''}>Morena Clara</option>
+                                    <option value="pardo" ${playerAvatarConfigs[i].skin==='pardo'?'selected':''}>Parda</option>
+                                    <option value="negro" ${playerAvatarConfigs[i].skin==='negro'?'selected':''}>Negra</option>
+                                    <option value="indigena" ${playerAvatarConfigs[i].skin==='indigena'?'selected':''}>Indígena</option>
+                                </select>
+                            </div>
+                            <div class="avatar-control-group">
+                                <label>Tipo de Cabelo</label>
+                                <select onchange="updateAvatarConfig(${i}, 'hairType', this.value)">
+                                    <option value="curto" ${playerAvatarConfigs[i].hairType==='curto'?'selected':''}>Curto</option>
+                                    <option value="longo" ${playerAvatarConfigs[i].hairType==='longo'?'selected':''}>Longo</option>
+                                    <option value="cacheado" ${playerAvatarConfigs[i].hairType==='cacheado'?'selected':''}>Cacheado</option>
+                                    <option value="afro" ${playerAvatarConfigs[i].hairType==='afro'?'selected':''}>Crespo / Afro</option>
+                                    <option value="maria_chiquinha" ${playerAvatarConfigs[i].hairType==='maria_chiquinha'?'selected':''}>Maria-Chiquinha</option>
+                                    <option value="careca" ${playerAvatarConfigs[i].hairType==='careca'?'selected':''}>Sem Cabelo</option>
+                                </select>
+                            </div>
+                            <div class="avatar-control-group">
+                                <label>Cor do Cabelo</label>
+                                <select onchange="updateAvatarConfig(${i}, 'hairColor', this.value)">
+                                    <option value="preto" ${playerAvatarConfigs[i].hairColor==='preto'?'selected':''}>Preto</option>
+                                    <option value="castanho" ${playerAvatarConfigs[i].hairColor==='castanho'?'selected':''}>Castanho</option>
+                                    <option value="loiro" ${playerAvatarConfigs[i].hairColor==='loiro'?'selected':''}>Loiro</option>
+                                    <option value="ruivo" ${playerAvatarConfigs[i].hairColor==='ruivo'?'selected':''}>Ruivo</option>
+                                    <option value="grisalho" ${playerAvatarConfigs[i].hairColor==='grisalho'?'selected':''}>Grisalho</option>
+                                </select>
+                            </div>
+                            <div class="avatar-control-group">
+                                <label>Cor dos Olhos</label>
+                                <select onchange="updateAvatarConfig(${i}, 'eye', this.value)">
+                                    <option value="castanho" ${playerAvatarConfigs[i].eye==='castanho'?'selected':''}>Castanhos</option>
+                                    <option value="preto" ${playerAvatarConfigs[i].eye==='preto'?'selected':''}>Pretos</option>
+                                    <option value="azul" ${playerAvatarConfigs[i].eye==='azul'?'selected':''}>Azuis</option>
+                                    <option value="verde" ${playerAvatarConfigs[i].eye==='verde'?'selected':''}>Verdes</option>
+                                </select>
+                            </div>
+                            <div class="avatar-control-group">
+                                <label>Acessórios</label>
+                                <select onchange="updateAvatarConfig(${i}, 'accessory', this.value)">
+                                    <option value="nenhum" ${playerAvatarConfigs[i].accessory==='nenhum'?'selected':''}>Nenhum</option>
+                                    <option value="oculos" ${playerAvatarConfigs[i].accessory==='oculos'?'selected':''}>Óculos de Grau</option>
+                                    <option value="laco" ${playerAvatarConfigs[i].accessory==='laco'?'selected':''}>Laço de Cabelo</option>
+                                    <option value="boné" ${playerAvatarConfigs[i].accessory==='boné'?'selected':''}>Boné</option>
+                                    <option value="brinco" ${playerAvatarConfigs[i].accessory==='brinco'?'selected':''}>Brincos</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 `;
                 container.appendChild(row);
             }
+        }
+
+        function updateAvatarConfig(playerIdx, prop, value) {
+            playerAvatarConfigs[playerIdx][prop] = value;
+            document.getElementById(`avatarPreview-${playerIdx}`).innerHTML = generateFaceSVG(playerAvatarConfigs[playerIdx]);
         }
 
         function selectPlayerColor(playerIdx, colorId) {
@@ -1104,7 +1426,14 @@
             for (let i = 0; i < activePlayerCount; i++) {
                 const name = document.getElementById(`pName-${i}`).value.trim() || `Jogador ${i+1}`;
                 const color = activePlayers[i]?.color || defaultColors[i];
-                activePlayers.push({ id: i + 1, name, color, pos: 0, finished: false });
+                activePlayers.push({
+                    id: i + 1,
+                    name,
+                    color,
+                    avatarConfig: { ...playerAvatarConfigs[i] },
+                    pos: 0,
+                    finished: false
+                });
             }
 
             currentPlayerIndex = 0;
@@ -1145,15 +1474,16 @@
                 const container = document.getElementById(`pawns-${p.pos}`);
                 if (container) {
                     const pawn = document.createElement("div");
-                    pawn.className = `pawn ${p.color}`;
+                    pawn.className = `pawn-avatar`;
+                    pawn.style.borderColor = colorMap[p.color] || "#2f3542";
                     pawn.title = p.name;
+                    pawn.innerHTML = generateFaceSVG(p.avatarConfig);
                     container.appendChild(pawn);
                 }
             });
         }
 
         function updateTurnCard() {
-            // Verificar se TODOS os jogadores já finalizaram
             const allFinished = activePlayers.every(p => p.finished);
             if (allFinished) {
                 confetti({ particleCount: 180, spread: 90, origin: { y: 0.6 } });
@@ -1161,14 +1491,17 @@
                 return;
             }
 
-            // Garante que o turno passe para um jogador que ainda NÃO finalizou
             while (activePlayers[currentPlayerIndex].finished) {
                 currentPlayerIndex = (currentPlayerIndex + 1) % activePlayers.length;
             }
 
             const p = activePlayers[currentPlayerIndex];
             document.getElementById("currentPlayerName").innerText = `Vez de ${p.name}`;
-            document.getElementById("playerPawnPreview").className = `pawn ${p.color}`;
+            
+            const avatarContainer = document.getElementById("playerAvatarPreview");
+            avatarContainer.style.borderColor = colorMap[p.color] || "#2f3542";
+            avatarContainer.innerHTML = generateFaceSVG(p.avatarConfig);
+
             document.getElementById("playerStatusText").innerText = "Role o dado para avançar!";
             document.getElementById("rollBtn").disabled = false;
         }
@@ -1222,7 +1555,6 @@
             const player = activePlayers[currentPlayerIndex];
             const tile = boardData[player.pos];
 
-            // Se atingiu a última casa
             if (player.pos === boardData.length - 1) {
                 if (!player.finished) {
                     player.finished = true;
@@ -1230,7 +1562,6 @@
                     alert(`🎉 Parabéns, ${player.name}! Você chegou à casa final da Trilha das Emoções!`);
                 }
 
-                // Verifica se faltam outros jogadores
                 const remaining = activePlayers.filter(p => !p.finished);
                 if (remaining.length > 0) {
                     alert(`Ainda restam ${remaining.length} jogador(es) no jogo. O jogo continua até todos chegarem!`);
@@ -1340,7 +1671,6 @@
             document.getElementById("gameScreen").classList.remove("active");
             document.getElementById("reportScreen").classList.add("active");
 
-            // Renderizar seletor de jogadores para relatório individual
             const selector = document.getElementById("playerReportSelector");
             selector.innerHTML = "";
 
@@ -1360,7 +1690,6 @@
         function selectReportPlayer(pIdx) {
             selectedReportPlayerIdx = pIdx;
 
-            // Atualiza estado visual dos botões
             document.querySelectorAll(".player-tab-btn").forEach((btn, idx) => {
                 btn.classList.toggle("active", idx === pIdx);
             });
@@ -1371,8 +1700,14 @@
             document.getElementById("pdfDate").innerText = today;
             document.getElementById("pdfPlayerName").innerText = player.name;
             document.getElementById("pdfPlayerTitleName").innerText = player.name;
+            
+            // CORREÇÃO: Renderização robusta do Avatar em imagem PNG DataURL para garantir compatibilidade 100% com html2canvas / PDF
+            const svgString = generateFaceSVG(player.avatarConfig);
+            const encodedSvg = encodeURIComponent(svgString);
+            const dataUrl = `data:image/svg+xml;charset=utf-8,${encodedSvg}`;
+            
+            document.getElementById("pdfPlayerAvatarBox").innerHTML = `<img src="${dataUrl}" style="width:100%; height:100%; object-fit:cover; display:block;" alt="Avatar">`;
 
-            // Filtra respostas exclusivas deste jogador
             const playerLogs = gameAnswersLog.filter(log => log.player === player.name);
             document.getElementById("pdfTotalAnswers").innerText = playerLogs.length;
 
