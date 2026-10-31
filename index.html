@@ -72,7 +72,7 @@
             align-items: center;
         }
 
-        /* TELA DE SELEÇÃO DE JOGADORES E MODOS */
+        /* TELA DE SELEÇÃO DE JOGADORES */
         .setup-card {
             background: white;
             border-radius: 25px;
@@ -109,7 +109,7 @@
             transition: all 0.2s;
         }
 
-        .count-btn.selected.selected {
+        .count-btn.selected {
             background: #ff4757;
             color: white;
             border-color: #ff4757;
@@ -305,7 +305,7 @@
             overflow: hidden;
         }
 
-        /* TABULEIROS 2D COM MÚLTIPLOS ESTILOS */
+        /* TABULEIRO 2D SINUOSO */
         .board-container {
             background: white;
             padding: 20px;
@@ -316,7 +316,6 @@
             overflow-x: auto;
         }
 
-        /* TABULEIRO SINUOSO EM GRELHA 5 COLUNAS (COMPATÍVEL COM COMPUTADOR E MOBILE) */
         .board-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -676,13 +675,16 @@
         }
 
         .report-avatar-mini {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             border: 2px solid #ced4da;
             overflow: hidden;
             background: white;
             flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .pdf-footer {
@@ -730,7 +732,7 @@
         <p>Um jogo interativo sobre sentimentos, empatia e expressão não-verbal</p>
     </header>
 
-    <!-- TELA 1: SELEÇÃO, PERSONALIZAÇÃO E TIPO DE TABULEIRO -->
+    <!-- TELA 1: SELEÇÃO E PERSONALIZAÇÃO DE JOGADORES -->
     <div id="setupScreen" class="screen active">
         <div class="setup-card">
             <h2>Escolha a quantidade de jogadores:</h2>
@@ -740,8 +742,6 @@
                 <button class="count-btn" onclick="setPlayerCount(3)">3</button>
                 <button class="count-btn" onclick="setPlayerCount(4)">4</button>
             </div>
-
-
 
             <div class="players-config-list" id="playersConfigList"></div>
 
@@ -776,7 +776,7 @@
             </div>
 
             <div class="board-container">
-                <div class="board-grid style-sinuoso" id="boardGrid"></div>
+                <div class="board-grid" id="boardGrid"></div>
             </div>
         </div>
     </div>
@@ -873,7 +873,7 @@
             grisalho: "#bdc3c7"
         };
 
-        // GERADOR SVG DIRETO E LIMPO (VERSÃO QUE FUNCIONA PERFEITAMENTE VIA INNERHTML)
+        // GERADOR SVG DE AVATARES
         function generateFaceSVG(config) {
             const gender = config.gender || "menino";
             const skin = skinColors[config.skin] || skinColors.claro;
@@ -1171,7 +1171,6 @@
         ];
 
         let activePlayerCount = 2;
-
         let activePlayers = [];
         let playerAvatarConfigs = [];
         let currentPlayerIndex = 0;
@@ -1185,8 +1184,6 @@
             });
             renderSetupRows();
         }
-
-
 
         function renderSetupRows() {
             const container = document.getElementById("playersConfigList");
@@ -1582,16 +1579,24 @@
                 const tr = document.createElement("tr");
                 const badgeColor = colorMap[log.playerColor] || "#2f3542";
                 
-                // Converter o SVG para Data URI codificado para o html2canvas/html2pdf ler como imagem estática perfeita
+                // Gerar SVG bruto e converter com btoa Base64 limpo (compatível com caracteres Unicode do AASI/Libras)
                 const rawSvg = generateFaceSVG(log.playerAvatarConfig);
-                const encodedSvg = encodeURIComponent(rawSvg);
-                const svgDataUrl = `data:image/svg+xml;charset=utf-8,${encodedSvg}`;
+                let svgDataUrl = "";
+                try {
+                    const base64Svg = btoa(unescape(encodeURIComponent(rawSvg)));
+                    svgDataUrl = `data:image/svg+xml;base64,${base64Svg}`;
+                } catch(e) {
+                    svgDataUrl = `data:image/svg+xml;utf8,${encodeURIComponent(rawSvg)}`;
+                }
+
+                // Ajustar o SVG com dimensões explícitas em px para garantia de captura pelo html2canvas
+                const fixedSvg = rawSvg.replace('<svg ', '<svg width="36" height="36" ');
 
                 tr.innerHTML = `
                     <td>
                         <div class="report-player-cell">
-                            <div class="report-avatar-mini">
-                                <img src="${svgDataUrl}" style="width:100%; height:100%; object-fit:cover; display:block;" alt="Avatar">
+                            <div class="report-avatar-mini" style="width:36px; height:36px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+                                <img src="${svgDataUrl}" style="width:36px; height:36px; display:block;" onerror="this.outerHTML='${fixedSvg.replace(/'/g, "\'").replace(/\n/g, "")}'" alt="Avatar">
                             </div>
                             <span style="color:${badgeColor};">${log.player}</span>
                         </div>
@@ -1609,11 +1614,18 @@
 
         function exportConsolidatedPDF() {
             const element = document.getElementById("pdfArea");
+            
             const opt = {
                 margin:       [8, 8, 8, 8],
                 filename:     `Relatorio_Geral_Trilha_das_Emocoes.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, allowTaint: true, logging: false },
+                html2canvas:  { 
+                    scale: 2, 
+                    useCORS: true, 
+                    allowTaint: true, 
+                    logging: false,
+                    svgRendering: true
+                },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
                 pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
             };
