@@ -631,24 +631,24 @@
             transform: scale(1.05);
         }
 
-        /* DOCUMENTO FORMATADO PARA HTML2CANVAS */
+        /* DOCUMENTO OTIMIZADO COMPACTO PARA PDF SEM QUEBRAS DESNECESSÁRIAS */
         .pdf-document {
             background: #ffffff !important;
-            padding: 25px;
+            padding: 16px 20px;
             border-radius: 8px;
             text-align: left;
             font-family: 'Nunito', sans-serif;
             color: #2d3436;
-            line-height: 1.4;
+            line-height: 1.3;
             width: 100%;
             box-sizing: border-box;
-            border: 2px solid #e9ecef;
+            border: 1px solid #dfe4ea;
         }
 
         .pdf-header-banner {
-            border-bottom: 3px solid #ff4757;
-            padding-bottom: 12px;
-            margin-bottom: 18px;
+            border-bottom: 2px solid #ff4757;
+            padding-bottom: 8px;
+            margin-bottom: 10px;
             width: 100%;
         }
 
@@ -660,24 +660,25 @@
         .pdf-header-title h2 {
             font-family: 'Fredoka', sans-serif;
             color: #ff4757;
-            font-size: 1.8rem;
-            margin-bottom: 2px;
+            font-size: 1.5rem;
+            margin-bottom: 0px;
+            line-height: 1.2;
         }
 
         .pdf-header-title p {
             color: #636e72;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             font-weight: 600;
         }
 
         .pdf-meta-box {
             background: #f8f9fa;
             border: 1px solid #dfe4ea;
-            border-left: 5px solid #4a90e2;
-            border-radius: 8px;
-            padding: 12px 18px;
-            margin-bottom: 20px;
-            font-size: 0.95rem;
+            border-left: 4px solid #4a90e2;
+            border-radius: 6px;
+            padding: 8px 14px;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
             width: 100%;
         }
 
@@ -688,11 +689,11 @@
 
         .pdf-section-title {
             font-family: 'Fredoka', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.05rem;
             color: #2f3542;
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-            border-bottom: 2px solid #e9ecef;
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #e9ecef;
         }
 
         .pdf-qa-container {
@@ -703,10 +704,10 @@
         .pdf-qa-row {
             background: #ffffff;
             border: 1px solid #e9ecef;
-            border-bottom: 3px solid #dfe4ea;
-            border-radius: 8px;
-            padding: 12px 15px;
-            margin-bottom: 12px;
+            border-bottom: 2px solid #dfe4ea;
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin-bottom: 6px;
             page-break-inside: avoid !important;
             break-inside: avoid !important;
             display: block;
@@ -721,21 +722,21 @@
         .pdf-qa-header-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .pdf-player-badge {
             display: inline-block;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 0.85rem;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 0.75rem;
             font-weight: 800;
             color: #ffffff !important;
             font-family: 'Fredoka', sans-serif;
         }
 
         .pdf-tile-info {
-            font-size: 0.85rem;
+            font-size: 0.78rem;
             color: #747d8c;
             font-weight: 700;
             text-align: right;
@@ -744,41 +745,41 @@
         .pdf-question-text {
             font-weight: 800;
             color: #2f3542;
-            font-size: 1.05rem;
-            margin: 8px 0;
+            font-size: 0.92rem;
+            margin: 4px 0;
             display: block;
         }
 
         .pdf-answer-box {
             background: #f1f9f5;
             border: 1px solid #b7ebc9;
-            border-left: 5px solid #2ed573;
-            border-radius: 6px;
-            padding: 10px 14px;
-            font-size: 0.98rem;
+            border-left: 4px solid #2ed573;
+            border-radius: 5px;
+            padding: 6px 10px;
+            font-size: 0.88rem;
             color: #2d3436;
-            margin-top: 6px;
+            margin-top: 4px;
             display: block;
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
 
         .pdf-answer-type {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.4px;
             color: #0fb9b1;
             font-weight: 800;
             display: block;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
         }
 
         .pdf-footer {
-            margin-top: 25px;
-            padding-top: 12px;
+            margin-top: 12px;
+            padding-top: 8px;
             border-top: 1px solid #dfe4ea;
             text-align: center;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: #a4b0be;
         }
 
@@ -899,9 +900,9 @@
                                 <h2>TRILHA DAS EMOÇÕES</h2>
                                 <p>Relatório Individual de Respostas & Expressão Não-Verbal</p>
                             </td>
-                            <td style="text-align:right; font-size:0.85rem; color:#747d8c;">
+                            <td style="text-align:right; font-size:0.8rem; color:#747d8c;">
                                 Data: <strong id="pdfDate">--/--/----</strong><br>
-                                Acessibilidade: Visual & Não-Verbal
+                                Recurso Inclusivo / Atendimento AEE
                             </td>
                         </tr>
                     </table>
@@ -910,10 +911,10 @@
                 <div class="pdf-meta-box">
                     <table>
                         <tr>
-                            <td style="display:flex; align-items:center; gap:12px;">
-                                <div id="pdfPlayerAvatarBox" style="width:50px; height:50px; border-radius:50%; overflow:hidden; background:#fff; border:2px solid #ced4da; flex-shrink:0;"></div>
+                            <td style="display:flex; align-items:center; gap:10px;">
+                                <div id="pdfPlayerAvatarBox" style="width:42px; height:42px; border-radius:50%; overflow:hidden; background:#fff; border:2px solid #ced4da; flex-shrink:0;"></div>
                                 <div>
-                                    <strong>Aluno / Jogador:</strong> <span id="pdfPlayerName">--</span>
+                                    <strong style="font-size:1rem; color:#2f3542;">Aluno(a) / Jogador(a):</strong> <span id="pdfPlayerName" style="font-weight:800; color:#ff4757; font-size:1.05rem;">--</span>
                                 </div>
                             </td>
                             <td style="text-align:right;"><strong>Total de Interações:</strong> <span id="pdfTotalAnswers">0</span></td>
@@ -921,12 +922,12 @@
                     </table>
                 </div>
 
-                <div class="pdf-section-title">📋 Registro das Respostas de <span id="pdfPlayerTitleName">--</span></div>
+                <div class="pdf-section-title">📋 Registro de Respostas & Expressões</div>
 
                 <div class="pdf-qa-container" id="reportList"></div>
 
                 <div class="pdf-footer">
-                    Documento gerado automaticamente pelo jogo digital "Trilha das Emoções" - Recurso pedagógico e inclusivo.
+                    Documento gerado pelo jogo digital "Trilha das Emoções" - Registro sintético para acompanhamento pedagógico e familiar.
                 </div>
             </div>
 
@@ -1728,7 +1729,7 @@
             container.innerHTML = "";
 
             if (playerLogs.length === 0) {
-                container.innerHTML = `<p style='padding:20px; color:#8395a7; text-align:center;'>Nenhuma pergunta necessitou de resposta registrada para ${player.name}.</p>`;
+                container.innerHTML = `<p style='padding:12px; color:#8395a7; text-align:center;'>Nenhuma pergunta necessitou de resposta registrada para ${player.name}.</p>`;
                 return;
             }
 
@@ -1745,10 +1746,10 @@
                             <td class="pdf-tile-info">Casa #${log.tileNum}</td>
                         </tr>
                     </table>
-                    <div class="pdf-question-text">❓ Pergunta: ${log.question}</div>
+                    <div class="pdf-question-text">❓ ${log.question}</div>
                     <div class="pdf-answer-box">
                         <span class="pdf-answer-type">${log.type}</span>
-                        👉 Resposta: ${log.answer}
+                        👉 ${log.answer}
                     </div>
                 `;
                 container.appendChild(row);
@@ -1761,7 +1762,7 @@
 
             const safeName = player.name.replace(/[^a-zA-Z0-9_-]/g, '_');
             const opt = {
-                margin:       [10, 10, 10, 10],
+                margin:       [8, 8, 8, 8],
                 filename:     `Relatorio_Emocional_${safeName}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2, useCORS: true, logging: false, scrollX: 0, scrollY: 0 },
